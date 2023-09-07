@@ -1,42 +1,34 @@
 ﻿using FitnessApp.Data;
 using FitnessApp.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 using (FitnessAppContext context = new FitnessAppContext())
 {
     context.Database.EnsureCreated();
 }
 
-int pageNumber = 2;
-int pageSize = 2;
 
-GetActivities(pageNumber, pageSize);
+SortUsers();
 
-Console.WriteLine("User and thier activities displayed");
+Console.WriteLine("Sorted");
 
 
-void GetActivities(int pageNumber, int pageSize)
+void SortUsers()
 {
-    using var context = new FitnessAppContext();
+    FitnessAppContext fitnessAppContext = new FitnessAppContext();
 
-    int recordsToSkip = (pageNumber - 1) * pageSize;
-
-    var users = context.Users
-        .Include(user => user.RunActivities)
-        .Skip(recordsToSkip)
-        .Take(pageSize)
+    var usersByLastName = fitnessAppContext.Users
+        .OrderBy(_ => _.FirstName)
+        .ThenBy(_ => _.LastName)
         .ToList();
 
-    if (users.Any())
-        foreach (var user in users)
-        {
-            Console.WriteLine($"First Name: {user.FirstName} Last Name: {user.LastName}");
-            foreach (var activity in user.RunActivities)
-            {
-                Console.WriteLine($"Name of Activity: {activity.Name} Distance: {activity.Distance}");
-            }
-        }
-    else
-        Console.WriteLine("No activities recorded yet");
+    usersByLastName.ForEach(_ => Console.WriteLine(_.FirstName + "," + _.LastName));
 
+    var usersDescending = fitnessAppContext.Users
+        .OrderByDescending(_ => _.LastName)
+        .ThenByDescending(_ => _.FirstName)
+        .ToList();
+    Console.WriteLine("\n**Descending Last to First**");
+    usersDescending.ForEach(_ => Console.WriteLine(_.LastName + "," + _.FirstName));
 }
