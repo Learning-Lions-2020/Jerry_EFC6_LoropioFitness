@@ -7,20 +7,24 @@ using (FitnessAppContext context = new FitnessAppContext())
     context.Database.EnsureCreated();
 }
 
-GetActivities("Bonface");
+int pageNumber = 2;
+int pageSize = 2;
+
+GetActivities(pageNumber, pageSize);
 
 Console.WriteLine("User and thier activities displayed");
 
 
-void GetActivities(string userName)
+void GetActivities(int pageNumber, int pageSize)
 {
     using var context = new FitnessAppContext();
 
+    int recordsToSkip = (pageNumber - 1) * pageSize;
+
     var users = context.Users
         .Include(user => user.RunActivities)
-        .Where(user => 
-            user.FirstName.Contains(userName) ||
-            user.LastName.Contains(userName))
+        .Skip(recordsToSkip)
+        .Take(pageSize)
         .ToList();
 
     if (users.Any())
