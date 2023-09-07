@@ -12,7 +12,7 @@ namespace FitnessApp.Data
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(
-                "Server = localhost\\SQLEXPRESS; Database=FitnessDb; Trusted_Connection = True;"
+                "Server = localhost\\SQLEXPRESS; Database=FitnessDb; Trusted_Connection = True;TrustServerCertificate=True"
                 );
         }
     }
