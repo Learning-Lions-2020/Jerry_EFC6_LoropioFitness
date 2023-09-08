@@ -30,7 +30,7 @@ void FindUserByFirstName(string firstName)
 
     if (user != null)
     {
-        Console.WriteLine($"User Details Before Update: FirstName: {user.FirstName}");
+        Console.WriteLine($"User FirstName: {user.FirstName} found!");
     }
     else
     {
@@ -47,12 +47,15 @@ void UpdateUserFirstName(string currentFirstName, string newFirstName)
     if (user != null)
     {
         Console.WriteLine($"User Details After Update: FirstName: {user.FirstName}");
-        user.FirstName = newFirstName;
+        Console.WriteLine("Before: " + fitnessAppContext.ChangeTracker.DebugView.ShortView);
 
         fitnessAppContext.ChangeTracker.DetectChanges();
+        user.FirstName = newFirstName;
         fitnessAppContext.SaveChanges();
 
         Console.WriteLine($"User Details After Update: FirstName: {user.FirstName}");
+        fitnessAppContext.ChangeTracker.DetectChanges();
+        Console.WriteLine("After: " + fitnessAppContext.ChangeTracker.DebugView.ShortView);
     }
     else
     {
