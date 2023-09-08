@@ -49,7 +49,6 @@ void UpdateUserFirstName(string currentFirstName, string newFirstName)
         Console.WriteLine($"User Details After Update: FirstName: {user.FirstName}");
         Console.WriteLine("Before: " + fitnessAppContext.ChangeTracker.DebugView.ShortView);
 
-        fitnessAppContext.ChangeTracker.DetectChanges();
         user.FirstName = newFirstName;
         fitnessAppContext.SaveChanges();
 
