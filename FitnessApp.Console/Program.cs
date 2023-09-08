@@ -8,27 +8,29 @@ using (FitnessAppContext context = new FitnessAppContext())
     context.Database.EnsureCreated();
 }
 
+PrintUser();
 
-SortUsers();
+void PrintUser()
+{
+    int userIdToFind = 20;
+    User foundUser = FindUserById(userIdToFind);
 
-Console.WriteLine("Sorted");
+    if (foundUser != null)
+    {
+        Console.WriteLine("Found User!");
+        Console.WriteLine($"User Details: UserId: {foundUser.Id}, First Name: {foundUser.FirstName}, Last Name: {foundUser.LastName}");
+    }
+    else
+    {
+        Console.WriteLine($"User with UserId {userIdToFind} not found.");
+    }
+}
 
 
-void SortUsers()
+User FindUserById(int userId)
 {
     FitnessAppContext fitnessAppContext = new FitnessAppContext();
 
-    var usersByLastName = fitnessAppContext.Users
-        .OrderBy(_ => _.FirstName)
-        .ThenBy(_ => _.LastName)
-        .ToList();
-
-    usersByLastName.ForEach(_ => Console.WriteLine(_.FirstName + "," + _.LastName));
-
-    var usersDescending = fitnessAppContext.Users
-        .OrderByDescending(_ => _.LastName)
-        .ThenByDescending(_ => _.FirstName)
-        .ToList();
-    Console.WriteLine("\n**Descending Last to First**");
-    usersDescending.ForEach(_ => Console.WriteLine(_.LastName + "," + _.FirstName));
+    return fitnessAppContext.Users.Find(userId);
 }
+
