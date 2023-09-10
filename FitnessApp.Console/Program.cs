@@ -11,12 +11,12 @@ PrintUserWithId(3);
 
 void PrintUserWithId(int id)
 {
-    User foundUser = FindUserById(id);
+    User? user = FindUserById(id);
 
-    if (foundUser != null)
+    if (user != null)
     {
         Console.WriteLine("Found User!");
-        Console.WriteLine($"User Details: UserId: {foundUser.Id}, First Name: {foundUser.FirstName}, Last Name: {foundUser.LastName}");
+        Console.WriteLine($"User Details: UserId: {user.Id}, First Name: {user.FirstName}, Last Name: {user.LastName}");
     }
     else
     {
@@ -25,7 +25,7 @@ void PrintUserWithId(int id)
 }
 
 
-User FindUserById(int userId)
+User? FindUserById(int userId)
 {
     FitnessAppContext fitnessAppContext = new FitnessAppContext();
 
