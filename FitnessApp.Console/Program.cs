@@ -1,19 +1,17 @@
 ﻿using FitnessApp.Data;
 using FitnessApp.Domain;
-using Microsoft.EntityFrameworkCore;
-using System.Globalization;
+using FitnessApp.Console.SetupDb;
 
-using (FitnessAppContext context = new FitnessAppContext())
+
+var dbSeeder = new DbSeeder();
+dbSeeder.CreateTestData();
+
+
+PrintUserWithId(3);
+
+void PrintUserWithId(int id)
 {
-    context.Database.EnsureCreated();
-}
-
-PrintUser();
-
-void PrintUser()
-{
-    int userIdToFind = 20;
-    User foundUser = FindUserById(userIdToFind);
+    User foundUser = FindUserById(id);
 
     if (foundUser != null)
     {
@@ -22,7 +20,7 @@ void PrintUser()
     }
     else
     {
-        Console.WriteLine($"User with UserId {userIdToFind} not found.");
+        Console.WriteLine($"User with UserId {id} not found.");
     }
 }
 
