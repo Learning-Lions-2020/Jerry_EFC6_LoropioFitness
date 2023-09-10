@@ -1,14 +1,11 @@
 ﻿using FitnessApp.Data;
 using FitnessApp.Domain;
-using Microsoft.EntityFrameworkCore;
-using System.Globalization;
+using FitnessApp.Console.SetupDb;
 
-using (FitnessAppContext context = new FitnessAppContext())
-{
-    context.Database.EnsureCreated();
-}
 
 Dialog();
+var dbSeeder = new DbSeeder();
+dbSeeder.CreateTestData();
 
 void Dialog()
 {
@@ -16,6 +13,7 @@ void Dialog()
     string? firstNameToFind = Console.ReadLine();
     Console.WriteLine("Enter the new First Name: ");
     string? newFirstName = Console.ReadLine();
+    User? user = FindUserById(id);
 
     FindUserByFirstName(firstNameToFind);
     UpdateUserFirstName(firstNameToFind, newFirstName);
