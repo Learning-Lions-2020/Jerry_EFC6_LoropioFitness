@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitnessApp.Data.Migrations
 {
     [DbContext(typeof(FitnessAppContext))]
-    [Migration("20230910094255_InitialCreate")]
+    [Migration("20230917083927_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

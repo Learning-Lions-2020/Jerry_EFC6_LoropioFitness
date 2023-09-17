@@ -1,10 +1,5 @@
 ﻿using FitnessApp.Data;
 using FitnessApp.Domain;
-using FitnessApp.Console.SetupDb;
-
-
-var dbSeeder = new DbSeeder();
-dbSeeder.CreateTestData();
 
 FitnessAppContext fitnessAppContext = new FitnessAppContext();
 
