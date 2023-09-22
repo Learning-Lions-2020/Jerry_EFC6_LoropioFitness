@@ -1,10 +1,50 @@
 ﻿using FitnessApp.Data;
+using FitnessApp.Domain.Activities;
 using FitnessApp.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 
 public class SportActivity
 {
     FitnessAppContext fitnessAppContext = new();
+
+    public void AddRunActivity(User user, string nameRunActivity, double distance)
+    {
+        user.RunActivities.Add(new RunActivity { Name = nameRunActivity, Distance = distance });
+    }
+
+    public void AddSwimActivity(User user, string nameSwimActivity, double distance)
+    {
+        user.SwimActivities.Add(new SwimActivity { Name = nameSwimActivity, Distance = distance });
+    }
+
+    public void AddBikeActivity(User user, string nameBikeActivity, double distance)
+    {
+        user.BikeActivities.Add(new BikeActivity { Name = nameBikeActivity, Distance = distance });
+    }
+
+    public void AddClimbActivity(User user, string nameSwimActivity, double distance)
+    {
+        user.ClimbActivities.Add(new ClimbActivity { Name = nameSwimActivity, Distance = distance });
+    }
+
+    public User AddUser(string firstName, string lastName)
+    {
+        var user = new User()
+        {
+            FirstName = firstName,
+            LastName = lastName
+        };
+
+        return user;
+    }
+
+    public void SaveChanges()
+    {
+        using (var context = new FitnessAppContext())
+        {
+            context.SaveChanges();
+        }
+    }
 
     public User? FindUserById(int userId)
     {

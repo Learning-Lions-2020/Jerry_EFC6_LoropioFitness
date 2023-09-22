@@ -1,8 +1,55 @@
-﻿public class ActivityDialog
+﻿using FitnessApp.Data;
+using FitnessApp.Domain.Users;
+
+public class ActivityDialog
 {
     internal static void EnterNewUserAndActivity()
     {
-        throw new NotImplementedException();
+        SportActivity sportActivity = new();
+
+        Console.WriteLine("Enter First Name: ");
+        string? firstName = Console.ReadLine();
+
+        Console.WriteLine("Enter Last Name: ");
+        string? lastName = Console.ReadLine();
+
+        User userName = sportActivity.AddUser(firstName, lastName);
+
+        Console.WriteLine("What type of activity do you want to enter?");
+        Console.WriteLine("1. Run Activity\n2. Swim Activity\n3. Bike Activity\n4. Climb Activity");
+        string? activitySelection = Console.ReadLine();
+
+        Console.WriteLine("Enter Activity Name(format example: Run/Swim/Bike/Climb From Loropio to Lokitaungber");
+        string? activityName = Console.ReadLine();
+
+        Console.WriteLine("Enter Activity Distance: ");
+        string? activityDistanceString = Console.ReadLine();
+
+        if (double.TryParse(activityDistanceString, out double activityDistance))
+        {
+            switch (activitySelection)
+            {
+                case "1":
+                    sportActivity.AddRunActivity(userName, activityName, activityDistance);
+                    break;
+                case "2":
+                    sportActivity.AddSwimActivity(userName, activityName, activityDistance);
+                    break;
+                case "3":
+                    sportActivity.AddBikeActivity(userName, activityName, activityDistance);
+                    break;
+                case "4":
+                    sportActivity.AddClimbActivity(userName, activityName, activityDistance);
+                    break;
+                default:
+                    throw new ArgumentException("Invalid selection");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid input for Activity Distance. Please enter a valid number.");
+        }
+        sportActivity.SaveChanges();
     }
 
     internal static void LoadUserAndActivities()

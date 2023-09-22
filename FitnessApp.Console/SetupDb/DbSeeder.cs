@@ -8,10 +8,8 @@ namespace FitnessApp.Console.SetupDb
     {
         public DbSeeder()
         {
-            using (FitnessAppContext context = new FitnessAppContext())
-            {
-                context.Database.EnsureCreated();
-            }
+            using FitnessAppContext context = new();
+            context.Database.EnsureCreated();
         }
 
         public void CreateTestData()
@@ -66,13 +64,13 @@ namespace FitnessApp.Console.SetupDb
 
         static User AddUser(string firstName, string lastName)
         {
-            var user1 = new User()
+            var user = new User()
             {
                 FirstName = firstName,
                 LastName = lastName
             };
 
-            return user1;
+            return user;
         }
     }
 }
