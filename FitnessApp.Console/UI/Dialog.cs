@@ -47,7 +47,7 @@
                     ActivityDialog.DeleteUser();
                     break;
                 case "6":
-                    ActivityDialog.DeleteActivityForUser();
+                    ActivityDialog.DeleteActivityForUserId();
                     break;
                 case "9": break;
                 default:
