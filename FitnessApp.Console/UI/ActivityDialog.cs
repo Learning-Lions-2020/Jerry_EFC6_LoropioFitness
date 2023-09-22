@@ -30,9 +30,27 @@
         {
             SportActivity sportActivity = new();
 
-            sportActivity.FindUserById(idToFind);
+            sportActivity.PrintUserId(idToFind);
 
-            sportActivity.PrintUserWithId(idToFind);
+            Console.WriteLine("Which detail do you want to edit: ");
+            Console.WriteLine("1. First Name \n2. Second Name");
+            string? detailToEdit = Console.ReadLine();
+
+            Console.WriteLine("Enter new name: ");
+            string? newNameToUpdate = Console.ReadLine();
+
+            switch (detailToEdit)
+            {
+                case "1":
+                    sportActivity.UpdateFirstName(idToFind, newNameToUpdate);
+                    break;
+                case "2":
+                    sportActivity.UpdateLastName(idToFind, newNameToUpdate);
+                    break;
+                default:
+                    Console.WriteLine("Invalid input! Choose 1 or 2");
+                    break;
+            }
         }
         else
         {
