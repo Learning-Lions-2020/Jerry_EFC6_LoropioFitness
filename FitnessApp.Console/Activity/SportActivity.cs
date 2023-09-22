@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 public class SportActivity
 {
-    FitnessAppContext fitnessAppContext = new();
+    readonly FitnessAppContext fitnessAppContext = new();
 
     public void AddRunActivity(User user, string nameRunActivity, double distance)
     {
@@ -40,10 +40,8 @@ public class SportActivity
 
     public void SaveChanges()
     {
-        using (var context = new FitnessAppContext())
-        {
-            context.SaveChanges();
-        }
+        using var context = new FitnessAppContext();
+        context.SaveChanges();
     }
 
     public User? FindUserById(int userId)
