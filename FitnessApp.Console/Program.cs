@@ -1,68 +1,51 @@
 ﻿using FitnessApp.Data;
 using FitnessApp.Domain;
-using Microsoft.EntityFrameworkCore;
 
-using (FitnessAppContext context = new FitnessAppContext())
+FitnessAppContext fitnessAppContext = new FitnessAppContext();
+
+Console.WriteLine("Enter User's first name to find: ");
+string? firstNameToFind = Console.ReadLine();
+    
+Console.WriteLine("Enter the new First Name: ");
+string? newFirstName = Console.ReadLine();
+    
+FindUserByFirstName(firstNameToFind);
+UpdateUserFirstName(firstNameToFind, newFirstName);
+
+void FindUserByFirstName(string? firstName)
 {
-    context.Database.EnsureCreated();
-}
+    User? user = fitnessAppContext.Users.FirstOrDefault(u => u.FirstName == firstName);
 
-AddUsersWithActivities();
-GetActivities();
-
-Console.WriteLine("DB was created and run activities displyed");
-
-void AddUsersWithActivities()
-{
-    User user1 = AddUser("Mike", "Miller");
-    AddRunActivity(user1, "Run from Loropio to Lodwar", 40);
-    AddRunActivity(user1, "Run from Nairobi to Nakuru", 80);
-
-
-    User user2 = AddUser("Joan", "Henson");
-    AddRunActivity(user2, "Run from Maralal to Wamba", 60);
-    AddRunActivity(user2, "Run from Naivasha to Nakuru", 40);
-
-    var context = new FitnessAppContext();
-
-    context.Users.Add(user1);
-    context.Users.Add(user2);
-
-
-    context.SaveChanges();
-}
-
-void AddRunActivity(User user, string nameRunActivity, int distance)
-{
-    user.RunActivities.Add(new RunActivity { Name = nameRunActivity, Distance = distance });
-}
-
-void GetActivities()
-{
-    using var context = new FitnessAppContext();
-
-    var users = context.Users.Include(user => user.RunActivities).ToList();
-    if (users.Any())
-        foreach (var user in users)
-        {
-            Console.WriteLine($"First Name: {user.FirstName} Last Name: {user.LastName}");
-            foreach (var activity in user.RunActivities)
-            {
-                Console.WriteLine($"Name of Activity: {activity.Name} Distance: {activity.Distance}");
-            }
-        }
-    else
-        Console.WriteLine("No activities recorded yet");
-
-}
-
-static User AddUser(string firstName, string lastName)
-{
-    var user1 = new User()
+    if (user != null)
     {
-        FirstName = firstName,
-        LastName = lastName
-    };
-
-    return user1;
+        Console.WriteLine($"User FirstName: {user.FirstName} found!");
+    }
+    else
+    {
+        Console.WriteLine($"User with FirstName '{firstName}' not found.");
+    }
 }
+
+void UpdateUserFirstName(string? fromFirstName, string? toFirstName)
+{
+    User user = fitnessAppContext.Users.FirstOrDefault(u => u.FirstName == fromFirstName);
+
+    if (user != null)
+    {
+        Console.WriteLine($"User Details before update: FirstName: {user.FirstName}");
+        if (toFirstName != null) user.FirstName = toFirstName;
+
+        Console.WriteLine("Before calling DetectChanges: " + fitnessAppContext.ChangeTracker.DebugView.ShortView);
+        fitnessAppContext.ChangeTracker.DetectChanges();
+        Console.WriteLine("After calling DetectChanges: " + fitnessAppContext.ChangeTracker.DebugView.ShortView);
+
+        fitnessAppContext.SaveChanges();
+
+        Console.WriteLine($"User Details After Update: FirstName: {user.FirstName}");
+    }
+    else
+    {
+        Console.WriteLine("User not found for updating FirstName.");
+    }
+}
+
