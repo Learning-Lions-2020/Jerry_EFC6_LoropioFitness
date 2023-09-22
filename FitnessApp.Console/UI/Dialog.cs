@@ -19,7 +19,7 @@
             Console.WriteLine("********************");
 
             Console.WriteLine("1: Enter new User and Activities");
-            Console.WriteLine("2: Load User Activities");
+            Console.WriteLine("2: Load User and Activities");
             Console.WriteLine("3: Retrieve and Update User by Id");
             Console.WriteLine("4: Retrieve and Update Activity by User Id");
             Console.WriteLine("5: Delete User");
@@ -35,7 +35,7 @@
                     ActivityDialog.EnterNewUserAndActivity();
                     break;
                 case "2":
-                    ActivityDialog.LoadUserActivities();
+                    ActivityDialog.LoadUserAndActivities();
                     break;
                 case "3":
                     ActivityDialog.RetrieveAndUpdateUser();

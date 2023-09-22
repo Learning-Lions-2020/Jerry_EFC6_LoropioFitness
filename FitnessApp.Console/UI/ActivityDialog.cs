@@ -5,23 +5,39 @@
         throw new NotImplementedException();
     }
 
-    internal static void LoadUserActivities()
+    internal static void LoadUserAndActivities()
     {
-        throw new NotImplementedException();
+        Console.WriteLine("Enter User's Id to view their details and activities: ");
+        string? userIdInput = Console.ReadLine();
+
+        if (int.TryParse(userIdInput, out int userId))
+        {
+            SportActivity sportActivity = new();
+            sportActivity.GetUserAndActivities(userId);
+        }
+        else
+        {
+            Console.WriteLine("Invalid input. Please enter a valid integer ID.");
+        }
     }
 
     public static void RetrieveAndUpdateUser()
     {
-        Console.WriteLine("Enter User's Firstname to find: ");
-        string? firstNameToFind = Console.ReadLine();
+        Console.WriteLine("Enter User's Id to find: ");
+        string? idToFindString = Console.ReadLine();
 
-        Console.WriteLine("Enter the new First Name: ");
-        string? newFirstName = Console.ReadLine();
+        if (int.TryParse(idToFindString, out int idToFind))
+        {
+            SportActivity sportActivity = new();
 
-        SportActivity sportActivity = new SportActivity();
+            sportActivity.FindUserById(idToFind);
 
-        sportActivity.FindUserByFirstName(firstNameToFind);
-        sportActivity.UpdateUserFirstName(firstNameToFind, newFirstName);
+            sportActivity.PrintUserWithId(idToFind);
+        }
+        else
+        {
+            Console.WriteLine("Invalid input. Please enter a valid integer ID.");
+        }
     }
 
     internal static void RetrieveAndUpdateActivity()
