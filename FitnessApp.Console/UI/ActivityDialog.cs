@@ -68,6 +68,11 @@ public class ActivityDialog
         }
     }
 
+    internal static void LoadAllUsersAndActivities()
+    {
+        throw new NotImplementedException();
+    }
+
     public static void RetrieveAndUpdateUser()
     {
         Console.WriteLine("Enter User's Id to find: ");
