@@ -1,6 +1,6 @@
-﻿namespace FitnessApp.Domain
+﻿namespace FitnessApp.Domain.Activities
 {
-    public class RunActivity
+    public class ClimbActivity
     {
         public int Id { get; set; }
         public string? Name { get; set; }

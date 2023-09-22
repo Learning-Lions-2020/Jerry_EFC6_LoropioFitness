@@ -1,5 +1,5 @@
 ﻿using FitnessApp.Data;
-using FitnessApp.Domain;
+using FitnessApp.Domain.Users;
 
 FitnessAppContext fitnessAppContext = new FitnessAppContext();
 
@@ -28,7 +28,7 @@ void FindUserByFirstName(string? firstName)
 
 void UpdateUserFirstName(string? fromFirstName, string? toFirstName)
 {
-    User user = fitnessAppContext.Users.FirstOrDefault(u => u.FirstName == fromFirstName);
+    User? user = fitnessAppContext.Users.FirstOrDefault(u => u.FirstName == fromFirstName);
 
     if (user != null)
     {

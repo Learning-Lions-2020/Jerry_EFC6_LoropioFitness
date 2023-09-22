@@ -1,5 +1,5 @@
 ﻿using FitnessApp.Data;
-using FitnessApp.Domain;
+using FitnessApp.Domain.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;

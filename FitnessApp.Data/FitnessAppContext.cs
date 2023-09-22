@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using FitnessApp.Domain;
-
+using FitnessApp.Domain.Activities;
+using FitnessApp.Domain.Users;
 
 namespace FitnessApp.Data
 {
