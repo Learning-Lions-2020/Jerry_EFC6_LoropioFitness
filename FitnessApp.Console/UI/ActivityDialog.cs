@@ -3,7 +3,7 @@ using FitnessApp.Domain.Users;
 
 public class ActivityDialog
 {
-    internal static void EnterNewUserAndActivity()
+    internal static void AddUserWithActivities()
     {
         SportActivity sportActivity = new();
 
@@ -52,7 +52,7 @@ public class ActivityDialog
         sportActivity.SaveChanges();
     }
 
-    internal static void LoadUserAndActivities()
+    internal static void PrintSpecificUserAndActivities()
     {
         Console.WriteLine("Enter User's Id to view their details and activities: ");
         string? userIdInput = Console.ReadLine();
@@ -68,7 +68,7 @@ public class ActivityDialog
         }
     }
 
-    internal static void LoadAllUsersAndActivities()
+    internal static void PrintUsersAndActivities()
     {
         throw new NotImplementedException();
     }
@@ -166,6 +166,16 @@ public class ActivityDialog
     }
 
     internal static void DeleteActivityForUserId()
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void AddUserWithoutActivities()
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void AddActivityWithoutUser()
     {
         throw new NotImplementedException();
     }
