@@ -2,6 +2,7 @@
 using FitnessApp.Data;
 using FitnessApp.Domain.Activities;
 using FitnessApp.Domain.Users;
+using Microsoft.EntityFrameworkCore;
 
 public class ActivityDialog
 {
@@ -80,7 +81,7 @@ public class ActivityDialog
                 context.Users.Update(user);
 
                 context.SaveChanges();
-                Console.WriteLine("Added Bike Activity successfully!");
+                Console.WriteLine("Added User and Bike Activity successfully!");
             }
         }
         else
@@ -111,7 +112,7 @@ public class ActivityDialog
                 context.Users.Update(user);
 
                 context.SaveChanges();
-                Console.WriteLine("Added Climb Activity successfully!");
+                Console.WriteLine("Added User and Climb Activity successfully!");
             }
         }
         else
@@ -143,7 +144,7 @@ public class ActivityDialog
                 context.Users.Update(user);
 
                 context.SaveChanges();
-                Console.WriteLine("Added Swim Activity successfully!");
+                Console.WriteLine("Added User and Swim Activity successfully!");
             }
         }
         else
@@ -175,7 +176,7 @@ public class ActivityDialog
                 context.Users.Update(user);
 
                 context.SaveChanges();
-                Console.WriteLine("Added Run Activity successfully!");
+                Console.WriteLine("Added User and Run Activity successfully!");
             }
         }
         else
@@ -186,7 +187,83 @@ public class ActivityDialog
 
     internal static void AddUserWithoutActivities()
     {
+        using (var context = new FitnessAppContext())
+        {
+            Console.WriteLine("Enter First Name: ");
+            string? firstName = Console.ReadLine();
+
+            Console.WriteLine("Enter Last Name: ");
+            string? lastName = Console.ReadLine();
+
+            SportActivity sportActivity = new();
+
+            var newUser = sportActivity.AddUser(firstName, lastName);
+
+            context.Users.Add(newUser);
+            context.SaveChanges();
+
+            Console.WriteLine("User added successfully!");
+        }
+    }
+
+    internal static void AddActivityWithoutUser()
+    {
         throw new NotImplementedException();
+    }
+
+    internal static void AssignActivityToUser()
+    {
+        throw new NotImplementedException();
+    }
+
+    internal static void PrintUsersAndActivities(int page)
+    {
+        using (var context = new FitnessAppContext())
+        {
+            int usersPerPage = 1;
+            int skipCount = (page - 1) * usersPerPage;
+
+            var user = context.Users
+                .Include(u => u.BikeActivities)
+                .Include(u => u.ClimbActivities)
+                .Include(u => u.RunActivities)
+                .Include(u => u.SwimActivities)
+                .OrderBy(u => u.Id)
+                .Skip(skipCount)
+                .Take(usersPerPage)
+                .FirstOrDefault();
+
+            if (user != null)
+            {
+                Console.WriteLine($"User: {user.FirstName} {user.LastName}");
+
+                Console.WriteLine("Bike Activities:");
+                foreach (var activity in user.BikeActivities)
+                {
+                    Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} km");
+                }
+
+                Console.WriteLine("Climb Activities:");
+                foreach (var activity in user.ClimbActivities)
+                {
+                    Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} meters");
+                }
+
+                Console.WriteLine("Run Activities:");
+                foreach (var activity in user.RunActivities)
+                {
+                    Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} km");
+                }
+
+                Console.WriteLine("Swim Activities:");
+                foreach (var activity in user.SwimActivities)
+                {
+                    Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} meters");
+                }
+
+                Console.WriteLine();
+            }
+        }
     }
 
 
@@ -204,11 +281,6 @@ public class ActivityDialog
         {
             Console.WriteLine("Invalid input. Please enter a valid integer ID.");
         }
-    }
-
-    internal static void PrintUsersAndActivities()
-    {
-        throw new NotImplementedException();
     }
 
     public static void RetrieveAndUpdateUser()
@@ -304,16 +376,6 @@ public class ActivityDialog
     }
 
     internal static void DeleteActivityForUserId()
-    {
-        throw new NotImplementedException();
-    }
-
-    internal static void AddActivityWithoutUser()
-    {
-        throw new NotImplementedException();
-    }
-
-    internal static void AssignActivityToUser()
     {
         throw new NotImplementedException();
     }
