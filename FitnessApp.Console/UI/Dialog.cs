@@ -21,12 +21,13 @@
             Console.WriteLine("1: Add user with activity");
             Console.WriteLine("2: Add user without activity");
             Console.WriteLine("3: Add activity without user");
-            Console.WriteLine("4. Print all users and their activities");
-            Console.WriteLine("5: Print Specific User and Activities");
-            Console.WriteLine("6: Retrieve and Update User by Id");
-            Console.WriteLine("7: Retrieve and Update Activity by User Id");
-            Console.WriteLine("8: Delete User");
-            Console.WriteLine("9: Delete Activity by User Id");
+            Console.WriteLine("4: Assign activity to a user");
+            Console.WriteLine("5. Print all users and their activities");
+            Console.WriteLine("6: Print Specific User and Activities");
+            Console.WriteLine("7: Retrieve and Update User by Id");
+            Console.WriteLine("8: Retrieve and Update Activity by User Id");
+            Console.WriteLine("9: Delete User");
+            Console.WriteLine("10: Delete Activity by User Id");
             Console.WriteLine("99: Quit application");
             Console.Write("Your selection: ");
 
@@ -44,21 +45,24 @@
                     ActivityDialog.AddActivityWithoutUser();
                     break;
                 case "4":
-                    ActivityDialog.PrintUsersAndActivities();
+                    ActivityDialog.AssignActivityToUser();
                     break;
                 case "5":
-                    ActivityDialog.PrintSpecificUserAndActivities();
+                    ActivityDialog.PrintUsersAndActivities();
                     break;
                 case "6":
-                    ActivityDialog.RetrieveAndUpdateUser();
+                    ActivityDialog.PrintSpecificUserAndActivities();
                     break;
                 case "7":
-                    ActivityDialog.RetrieveAndUpdateActivity();
+                    ActivityDialog.RetrieveAndUpdateUser();
                     break;
                 case "8":
-                    ActivityDialog.DeleteUser();
+                    ActivityDialog.RetrieveAndUpdateActivity();
                     break;
                 case "9":
+                    ActivityDialog.DeleteUser();
+                    break;
+                case "10":
                     ActivityDialog.DeleteActivityForUserId();
                     break;
                 case "99": break;

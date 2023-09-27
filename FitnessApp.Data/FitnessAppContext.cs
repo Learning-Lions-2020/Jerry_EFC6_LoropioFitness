@@ -6,10 +6,10 @@ namespace FitnessApp.Data
 {
     public class FitnessAppContext : DbContext
     {
-        public DbSet<RunActivity> RunActivities { get; set; }
         public DbSet<BikeActivity> BikeActivities { get; set; }
-        public DbSet<SwimActivity> SwimActivities { get; set; }
         public DbSet<ClimbActivity> ClimbActivities { get; set; }
+        public DbSet<RunActivity> RunActivities { get; set; }
+        public DbSet<SwimActivity> SwimActivities { get; set; }
         public DbSet<User> Users { get; set; } 
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

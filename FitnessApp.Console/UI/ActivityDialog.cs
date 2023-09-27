@@ -1,11 +1,15 @@
-﻿using FitnessApp.Data;
+﻿using FitnessApp.Console.Activity;
+using FitnessApp.Data;
+using FitnessApp.Domain.Activities;
 using FitnessApp.Domain.Users;
 
 public class ActivityDialog
 {
+    private static ActivityType[] validActivities = { ActivityType.BikeActivity, ActivityType.ClimbActivity, ActivityType.RunActivity, ActivityType.SwimActivity };
+
     internal static void AddUserWithActivities()
     {
-        SportActivity sportActivity = new();
+        SportActivity sportActivity = new SportActivity();
 
         Console.WriteLine("Enter First Name: ");
         string? firstName = Console.ReadLine();
@@ -13,44 +17,178 @@ public class ActivityDialog
         Console.WriteLine("Enter Last Name: ");
         string? lastName = Console.ReadLine();
 
-        User userName = sportActivity.AddUser(firstName, lastName);
+        User newUser = sportActivity.AddUser(firstName, lastName);
 
         Console.WriteLine("What type of activity do you want to enter?");
-        Console.WriteLine("1. Run Activity\n2. Swim Activity\n3. Bike Activity\n4. Climb Activity");
-        string? activitySelection = Console.ReadLine();
+        Console.WriteLine("1. Bike Activity\n2. Climb Activity\n3. Run Activity\n4. Swim Activity");
+        Console.Write("Your selection: ");
 
-        Console.WriteLine("Enter Activity Name(format example: Run/Swim/Bike/Climb From Loropio to Lokitaungber");
-        string? activityName = Console.ReadLine();
+        string? activityTypeInput = Console.ReadLine();
 
-        Console.WriteLine("Enter Activity Distance: ");
-        string? activityDistanceString = Console.ReadLine();
-
-        if (double.TryParse(activityDistanceString, out double activityDistance))
+        if (int.TryParse(activityTypeInput, out int selectedActivityIndex) && selectedActivityIndex >= 1 && selectedActivityIndex <= validActivities.Length)
         {
-            switch (activitySelection)
+            ActivityType activityType = validActivities[selectedActivityIndex - 1];
+            OpenActivityDialog(newUser, activityType);
+        }
+        else
+        {
+            Console.WriteLine("Invalid selection.");
+        }
+    }
+
+    private static void OpenActivityDialog(User user, ActivityType activityType)
+    {
+        switch (activityType)
+        {
+            case ActivityType.BikeActivity:
+                AddBikeActivity(user);
+                break;
+            case ActivityType.ClimbActivity:
+                AddClimbActivity(user);
+                break;
+            case ActivityType.RunActivity:
+                AddRunActivity(user);
+                break;
+            case ActivityType.SwimActivity:
+                AddSwimActivity(user);
+                break;
+            default:
+                Console.WriteLine("Invalid SportActivity");
+                break;
+        }
+    }
+
+    private static void AddBikeActivity(User user)
+    {
+        Console.Write("Name of the bike activity: ");
+        string? activityNameInput = Console.ReadLine();
+
+        Console.Write("Enter distance in km: ");
+        string? distanceInput = Console.ReadLine();
+
+        if (double.TryParse(distanceInput, out double distance) && distance >= 0)
+        {
+            using (var context = new FitnessAppContext())
             {
-                case "1":
-                    sportActivity.AddRunActivity(userName, activityName, activityDistance);
-                    break;
-                case "2":
-                    sportActivity.AddSwimActivity(userName, activityName, activityDistance);
-                    break;
-                case "3":
-                    sportActivity.AddBikeActivity(userName, activityName, activityDistance);
-                    break;
-                case "4":
-                    sportActivity.AddClimbActivity(userName, activityName, activityDistance);
-                    break;
-                default:
-                    throw new ArgumentException("Invalid selection");
+                var bikeActivity = new BikeActivity
+                {
+                    Name = activityNameInput,
+                    Distance = distance,
+                };
+
+                user.BikeActivities.Add(bikeActivity);
+                context.Users.Update(user);
+
+                context.SaveChanges();
+                Console.WriteLine("Added Bike Activity successfully!");
             }
         }
         else
         {
-            Console.WriteLine("Invalid input for Activity Distance. Please enter a valid number.");
+            Console.WriteLine("Invalid distance format!");
         }
-        sportActivity.SaveChanges();
     }
+
+    private static void AddClimbActivity(User user)
+    {
+        Console.Write("Name of the climb activity: ");
+        string? activityNameInput = Console.ReadLine();
+
+        Console.Write("Enter distance in meters: ");
+        string? distanceInput = Console.ReadLine();
+
+        if (double.TryParse(distanceInput, out double distance) && distance >= 0)
+        {
+            using (var context = new FitnessAppContext())
+            {
+                var climbActivity = new ClimbActivity
+                {
+                    Name = activityNameInput,
+                    Distance = distance,
+                };
+
+                user.ClimbActivities.Add(climbActivity);
+                context.Users.Update(user);
+
+                context.SaveChanges();
+                Console.WriteLine("Added Climb Activity successfully!");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid distance format!");
+        }
+    }
+
+    private static void AddSwimActivity(User user)
+    {
+        Console.Write("Name of the swim activity: ");
+        string? activityNameInput = Console.ReadLine();
+
+        Console.Write("Enter distance in meters: ");
+        string? distanceInput = Console.ReadLine();
+
+        if (double.TryParse(distanceInput, out double distance) && distance >= 0)
+        {
+            // Create a DbContext instance
+            using (var context = new FitnessAppContext())
+            {
+                var swimActivity = new SwimActivity
+                {
+                    Name = activityNameInput,
+                    Distance = distance,
+                };
+
+                user.SwimActivities.Add(swimActivity);
+                context.Users.Update(user);
+
+                context.SaveChanges();
+                Console.WriteLine("Added Swim Activity successfully!");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid distance format!");
+        }
+    }
+
+    private static void AddRunActivity(User user)
+    {
+        Console.Write("Name of the run activity: ");
+        string? activityNameInput = Console.ReadLine();
+
+        Console.Write("Enter distance in km: ");
+        string? distanceInput = Console.ReadLine();
+
+        if (double.TryParse(distanceInput, out double distance) && distance >= 0)
+        {
+            // Create a DbContext instance
+            using (var context = new FitnessAppContext())
+            {
+                var runActivity = new RunActivity
+                {
+                    Name = activityNameInput,
+                    Distance = distance,
+                };
+
+                user.RunActivities.Add(runActivity);
+                context.Users.Update(user);
+
+                context.SaveChanges();
+                Console.WriteLine("Added Run Activity successfully!");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid distance format!");
+        }
+    }
+
+    internal static void AddUserWithoutActivities()
+    {
+        throw new NotImplementedException();
+    }
+
 
     internal static void PrintSpecificUserAndActivities()
     {
@@ -170,12 +308,12 @@ public class ActivityDialog
         throw new NotImplementedException();
     }
 
-    internal static void AddUserWithoutActivities()
+    internal static void AddActivityWithoutUser()
     {
         throw new NotImplementedException();
     }
 
-    internal static void AddActivityWithoutUser()
+    internal static void AssignActivityToUser()
     {
         throw new NotImplementedException();
     }

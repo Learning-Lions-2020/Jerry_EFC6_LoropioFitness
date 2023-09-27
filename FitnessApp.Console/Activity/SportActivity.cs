@@ -5,28 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 public class SportActivity
 {
-    readonly FitnessAppContext fitnessAppContext = new();
-
-    public void AddRunActivity(User user, string nameRunActivity, double distance)
-    {
-        user.RunActivities.Add(new RunActivity { Name = nameRunActivity, Distance = distance });
-    }
-
-    public void AddSwimActivity(User user, string nameSwimActivity, double distance)
-    {
-        user.SwimActivities.Add(new SwimActivity { Name = nameSwimActivity, Distance = distance });
-    }
-
-    public void AddBikeActivity(User user, string nameBikeActivity, double distance)
-    {
-        user.BikeActivities.Add(new BikeActivity { Name = nameBikeActivity, Distance = distance });
-    }
-
-    public void AddClimbActivity(User user, string nameSwimActivity, double distance)
-    {
-        user.ClimbActivities.Add(new ClimbActivity { Name = nameSwimActivity, Distance = distance });
-    }
-
+    FitnessAppContext fitnessAppContext = new();
     public User AddUser(string firstName, string lastName)
     {
         var user = new User()
@@ -36,12 +15,6 @@ public class SportActivity
         };
 
         return user;
-    }
-
-    public void SaveChanges()
-    {
-        using var context = new FitnessAppContext();
-        context.SaveChanges();
     }
 
     public User? FindUserById(int userId)
