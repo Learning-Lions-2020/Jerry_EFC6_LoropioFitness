@@ -211,7 +211,7 @@ public class ActivityDialog
         throw new NotImplementedException();
     }
 
-    internal static void AssignActivityToUser()
+    internal static void AddActivityToUser()
     {
         throw new NotImplementedException();
     }
@@ -283,7 +283,7 @@ public class ActivityDialog
         }
     }
 
-    public static void RetrieveAndUpdateUser()
+    public static void RetrieveAndUpdateUserDetailsByUserId()
     {
         Console.WriteLine("Enter User's Id to find: ");
         string? idToFindString = Console.ReadLine();
@@ -320,7 +320,7 @@ public class ActivityDialog
         }
     }
 
-    internal static void RetrieveAndUpdateActivity()
+    internal static void RetrieveAndUpdateActivityDetailsByUserId()
     {
         Console.WriteLine("Enter User's Id to list their activities: ");
         string? idToFindString = Console.ReadLine();
@@ -370,7 +370,7 @@ public class ActivityDialog
         }
     }
 
-    internal static void DeleteUser()
+    internal static void DeleteUserAndActivities()
     {
         throw new NotImplementedException();
     }

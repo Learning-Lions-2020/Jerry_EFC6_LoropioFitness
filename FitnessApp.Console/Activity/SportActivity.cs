@@ -38,19 +38,77 @@ public class SportActivity
         }
     }
 
+
     public void GetUserAndActivities(int userId)
     {
         var user = fitnessAppContext.Users
-            .Include(user => user.RunActivities)
-            .FirstOrDefault(user => user.Id == userId);
+        .Include(user => user.BikeActivities)
+        .Include(user => user.ClimbActivities)
+        .Include(user => user.RunActivities)
+        .Include(user => user.SwimActivities)
+        .FirstOrDefault(user => user.Id == userId);
 
         if (user != null)
         {
-            Console.WriteLine($"First Name: {user.FirstName}, Last Name: {user.LastName}");
-            foreach (var activity in user.RunActivities)
+            Console.WriteLine($"User: {user.FirstName} {user.LastName}");
+
+            // Print Bike Activities
+            Console.WriteLine("Bike Activities:");
+            if (user.BikeActivities != null && user.BikeActivities.Any())
             {
-                Console.WriteLine($"Name of Activity: {activity.Name} Distance: {activity.Distance}");
+                foreach (var activity in user.BikeActivities)
+                {
+                    Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} km");
+                }
             }
+            else
+            {
+                Console.WriteLine("  - Activity not yet recorded");
+            }
+
+            // Print Climb Activities
+            Console.WriteLine("Climb Activities:");
+            if (user.ClimbActivities != null && user.ClimbActivities.Any())
+            {
+                foreach (var activity in user.ClimbActivities)
+                {
+                    Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} meters");
+                }
+            }
+            else
+            {
+                Console.WriteLine("  - Activity not yet recorded");
+            }
+
+            // Print Run Activities
+            Console.WriteLine("Run Activities:");
+            if (user.RunActivities != null && user.RunActivities.Any())
+            {
+                foreach (var activity in user.RunActivities)
+                {
+                    Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} km");
+                }
+            }
+            else
+            {
+                Console.WriteLine("  - Activity not yet recorded");
+            }
+
+            // Print Swim Activities
+            Console.WriteLine("Swim Activities:");
+            if (user.SwimActivities != null && user.SwimActivities.Any())
+            {
+                foreach (var activity in user.SwimActivities)
+                {
+                    Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} meters");
+                }
+            }
+            else
+            {
+                Console.WriteLine("  - Activity not yet recorded");
+            }
+
+            Console.WriteLine();
         }
         else
         {
