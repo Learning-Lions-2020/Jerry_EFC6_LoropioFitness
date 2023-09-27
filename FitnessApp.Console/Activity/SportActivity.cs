@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 public class SportActivity
 {
     FitnessAppContext fitnessAppContext = new();
-    public User AddUser(string firstName, string lastName)
+    public User AddUser(string? firstName, string? lastName)
     {
         var user = new User()
         {
@@ -58,7 +58,7 @@ public class SportActivity
             {
                 foreach (var activity in user.BikeActivities)
                 {
-                    Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} km");
+                    Console.WriteLine($"  - Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} km");
                 }
             }
             else
@@ -72,7 +72,7 @@ public class SportActivity
             {
                 foreach (var activity in user.ClimbActivities)
                 {
-                    Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} meters");
+                    Console.WriteLine($"  - Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} meters");
                 }
             }
             else
@@ -86,7 +86,7 @@ public class SportActivity
             {
                 foreach (var activity in user.RunActivities)
                 {
-                    Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} km");
+                    Console.WriteLine($"  - Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} km");
                 }
             }
             else
@@ -100,7 +100,7 @@ public class SportActivity
             {
                 foreach (var activity in user.SwimActivities)
                 {
-                    Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} meters");
+                    Console.WriteLine($"  - Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} meters");
                 }
             }
             else
@@ -168,11 +168,29 @@ public class SportActivity
 
         if (user != null)
         {
-            var activity = user.RunActivities.FirstOrDefault(a => a.Id == activityId);
+            var bikeActivity = user.BikeActivities.FirstOrDefault(a => a.Id == activityId);
+            var climbActivity = user.ClimbActivities.FirstOrDefault(a => a.Id == activityId);
+            var runActivity = user.RunActivities.FirstOrDefault(a => a.Id == activityId);
+            var swimActivity = user.SwimActivities.FirstOrDefault(a => a.Id == activityId);
 
-            if (activity != null)
+            if (bikeActivity != null)
             {
-                Console.WriteLine($"Activity Details: Name - {activity.Name}, Distance - {activity.Distance}");
+                Console.WriteLine($"Bike Activity Details: Name - {bikeActivity.Name}, Distance - {bikeActivity.Distance}");
+                return true;
+            }
+            else if (climbActivity != null)
+            {
+                Console.WriteLine($"Climb Activity Details: Name - {climbActivity.Name}, Distance - {climbActivity.Distance}");
+                return true;
+            }
+            else if (runActivity != null)
+            {
+                Console.WriteLine($"Run Activity Details: Name - {runActivity.Name}, Distance - {runActivity.Distance}");
+                return true;
+            }
+            else if (swimActivity != null)
+            {
+                Console.WriteLine($"Swim Activity Details: Name - {swimActivity.Name}, Distance - {swimActivity.Distance}");
                 return true;
             }
         }
@@ -180,6 +198,7 @@ public class SportActivity
         Console.WriteLine($"Activity with ID {activityId} not found for user ID {userId}");
         return false;
     }
+
 
     public void UpdateActivityName(int userId, int activityId, string? newActivityName)
     {

@@ -11,6 +11,7 @@ namespace FitnessApp.Console.Activity
         BikeActivity = 1,
         ClimbActivity = 2,
         RunActivity = 3,
-        SwimActivity = 4
+        SwimActivity = 4,
+        Undefined
     }
 }
