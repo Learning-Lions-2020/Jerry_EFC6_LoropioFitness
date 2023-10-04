@@ -112,7 +112,7 @@ public class SportActivity
         }
         else
         {
-            Console.WriteLine("User not found or no activities recorded yet.");
+            Console.WriteLine($"UserID {userId} not found or no activities recorded yet.");
         }
     }
 

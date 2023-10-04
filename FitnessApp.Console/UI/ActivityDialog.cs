@@ -131,7 +131,6 @@ public class ActivityDialog
 
         if (double.TryParse(distanceInput, out double distance) && distance >= 0)
         {
-            // Create a DbContext instance
             using (var context = new FitnessAppContext())
             {
                 var swimActivity = new SwimActivity
@@ -163,7 +162,6 @@ public class ActivityDialog
 
         if (double.TryParse(distanceInput, out double distance) && distance >= 0)
         {
-            // Create a DbContext instance
             using (var context = new FitnessAppContext())
             {
                 var runActivity = new RunActivity
@@ -372,8 +370,46 @@ public class ActivityDialog
 
     internal static void DeleteUserAndActivities()
     {
-        throw new NotImplementedException();
+        Console.WriteLine("Enter User's Id to view their details and activities before deletion: ");
+        string? userIdInput = Console.ReadLine();
+
+        SportActivity sportActivity = new();
+
+        if (int.TryParse(userIdInput, out int userId))
+        {
+            sportActivity.GetUserAndActivities(userId);
+
+            using (var context = new FitnessAppContext())
+            {
+                var user = context.Users.Include(u => u.BikeActivities)
+                                      .Include(u => u.ClimbActivities)
+                                      .Include(u => u.RunActivities)
+                                      .Include(u => u.SwimActivities)
+                                      .FirstOrDefault(u => u.Id == userId);
+
+                if (user != null)
+                {
+                    Console.WriteLine("Press Enter to confirm deletion, or any other key to cancel...");
+                    if (Console.ReadKey().Key == ConsoleKey.Enter)
+                    {
+                        context.Users.Remove(user);
+                        context.SaveChanges();
+
+                        Console.WriteLine("User and associated activities deleted successfully!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Deletion canceled.");
+                    }
+                }
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid input. Please enter a valid integer ID.");
+        }
     }
+
 
     internal static void DeleteActivityForUserId()
     {

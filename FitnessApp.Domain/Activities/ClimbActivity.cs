@@ -1,6 +1,4 @@
-﻿using FitnessApp.Console.Activity;
-
-namespace FitnessApp.Domain.Activities
+﻿namespace FitnessApp.Domain.Activities
 {
     public class ClimbActivity
     {
