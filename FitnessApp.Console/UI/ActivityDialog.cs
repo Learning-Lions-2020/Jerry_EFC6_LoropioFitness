@@ -204,9 +204,21 @@ public class ActivityDialog
         }
     }
 
-    internal static void AddActivityWithoutUser()
+    internal static void AddActivitiesWithoutUser()
     {
-        throw new NotImplementedException();
+        Console.WriteLine("What type of activity do you want to enter?");
+        Console.WriteLine("1. Bike Activity\n2. Climb Activity\n3. Run Activity\n4. Swim Activity");
+        Console.Write("Your selection: ");
+
+        if (int.TryParse(Console.ReadLine(), out int selectedActivityIndex) && selectedActivityIndex >= 1 && selectedActivityIndex <= validActivities.Length)
+        {
+            ActivityType activityType = validActivities[selectedActivityIndex - 1];
+            OpenActivityDialog(null, activityType); // User parameter is null for activities without a user
+        }
+        else
+        {
+            Console.WriteLine("Invalid selection.");
+        }
     }
 
     internal static void AddActivityToUser()

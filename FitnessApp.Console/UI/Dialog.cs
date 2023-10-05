@@ -42,7 +42,7 @@
                     ActivityDialog.AddUserWithoutActivities();
                     break;
                 case "3":
-                    ActivityDialog.AddActivityWithoutUser();
+                    ActivityDialog.AddActivitiesWithoutUser();
                     break;
                 case "4":
                     ActivityDialog.AddActivityToUser();
