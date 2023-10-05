@@ -7,6 +7,8 @@ using Microsoft.EntityFrameworkCore;
 public class ActivityDialog
 {
     private static ActivityType[] validActivities = { ActivityType.BikeActivity, ActivityType.ClimbActivity, ActivityType.RunActivity, ActivityType.SwimActivity };
+    private static int currentPage = 1;
+    private static int pageSize = 1;
 
     internal static void AddUserWithActivities()
     {
@@ -223,56 +225,236 @@ public class ActivityDialog
 
     internal static void AddActivityToUser()
     {
-        throw new NotImplementedException();
+        Console.WriteLine("Which user do you want to add an activity to? Enter user id:");
+        if (int.TryParse(Console.ReadLine(), out int userId))
+        {
+            using (var context = new FitnessAppContext())
+            {
+                var user = context.Users
+                    .Include(u => u.BikeActivities)
+                    .Include(u => u.ClimbActivities)
+                    .Include(u => u.RunActivities)
+                    .Include(u => u.SwimActivities)
+                    .FirstOrDefault(u => u.Id == userId);
+
+                if (user == null)
+                {
+                    Console.WriteLine($"User with id {userId} not found.");
+                    return;
+                }
+
+                Console.WriteLine("Do you want to add an existing activity or a new activity?");
+                Console.WriteLine("1. Existing Activity\n2. New Activity");
+                Console.Write("Your selection: ");
+
+                if (int.TryParse(Console.ReadLine(), out int choice))
+                {
+                    switch (choice)
+                    {
+                        case 1:
+                            AssignExistingActivityToUser(context, user);
+                            break;
+                        case 2:
+                            AddNewActivityToUser(context, user);
+                            break;
+                        default:
+                            Console.WriteLine("Invalid choice.");
+                            break;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Invalid choice.");
+                }
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid user id format.");
+        }
     }
 
-    internal static void PrintUsersAndActivities(int page)
+    private static void AssignExistingActivityToUser(FitnessAppContext context, User user)
+    {
+        Console.WriteLine("Existing Activities available for assignment:");
+
+        var availableBikeActivities = context.BikeActivities
+            .Where(activity => activity.UserId == null)
+            .ToList();
+
+        var availableClimbActivities = context.ClimbActivities
+            .Where(activity => activity.UserId == null)
+            .ToList();
+
+        var availableRunActivities = context.RunActivities
+            .Where(activity => activity.UserId == null)
+            .ToList();
+
+        var availableSwimActivities = context.SwimActivities
+            .Where(activity => activity.UserId == null)
+            .ToList();
+
+        //specific activity to print available activities
+        foreach (var activity in availableBikeActivities)
+        {
+            Console.WriteLine($"Activity Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} km");
+        }
+
+        foreach (var activity in availableClimbActivities)
+        {
+            Console.WriteLine($"Activity Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} meters");
+        }
+
+        foreach (var activity in availableRunActivities)
+        {
+            Console.WriteLine($"Activity Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} km");
+        }
+
+        foreach (var activity in availableSwimActivities)
+        {
+            Console.WriteLine($"Activity Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} meters");
+        }
+
+        Console.Write("Enter the Activity Id to assign to the user: ");
+        if (int.TryParse(Console.ReadLine(), out int activityId))
+        {
+            // Check the specific activity type variables
+            var bikeActivity = availableBikeActivities.FirstOrDefault(a => a.Id == activityId);
+            var climbActivity = availableClimbActivities.FirstOrDefault(a => a.Id == activityId);
+            var runActivity = availableRunActivities.FirstOrDefault(a => a.Id == activityId);
+            var swimActivity = availableSwimActivities.FirstOrDefault(a => a.Id == activityId);
+
+            if (bikeActivity != null)
+            {
+                bikeActivity.UserId = user.Id;
+                context.SaveChanges();
+                Console.WriteLine($"Successfully added activity to user: {user.FirstName} {user.LastName}");
+            }
+            else if (climbActivity != null)
+            {
+                climbActivity.UserId = user.Id;
+                context.SaveChanges();
+                Console.WriteLine($"Successfully added activity to user: {user.FirstName} {user.LastName}");
+            }
+            else if (runActivity != null)
+            {
+                runActivity.UserId = user.Id;
+                context.SaveChanges();
+                Console.WriteLine($"Successfully added activity to user: {user.FirstName} {user.LastName}");
+            }
+            else if (swimActivity != null)
+            {
+                swimActivity.UserId = user.Id;
+                context.SaveChanges();
+                Console.WriteLine($"Successfully added activity to user: {user.FirstName} {user.LastName}");
+            }
+            else
+            {
+                Console.WriteLine("Invalid activity Id.");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid Activity Id format.");
+        }
+    }
+
+
+    private static void AddNewActivityToUser(FitnessAppContext context, User user)
+    {
+
+    }
+
+
+    internal static void PrintUsersAndActivities()
+    {
+        while (true)
+        {
+            int nextPage = PrintUsersAndActivities(currentPage, pageSize);
+
+            if (nextPage == -1)
+            {
+                break;
+            }
+
+            currentPage = nextPage;
+        }
+    }
+
+    internal static int PrintUsersAndActivities(int currentPage, int pageSize)
     {
         using (var context = new FitnessAppContext())
         {
-            int usersPerPage = 1;
-            int skipCount = (page - 1) * usersPerPage;
-
-            var user = context.Users
+            var users = context.Users
                 .Include(u => u.BikeActivities)
                 .Include(u => u.ClimbActivities)
                 .Include(u => u.RunActivities)
                 .Include(u => u.SwimActivities)
                 .OrderBy(u => u.Id)
-                .Skip(skipCount)
-                .Take(usersPerPage)
-                .FirstOrDefault();
+                .ToList();
 
-            if (user != null)
+            int totalUsers = users.Count;
+            int totalPages = (int)Math.Ceiling((double)totalUsers / pageSize); //Math.Ceiling is not covered in the course
+
+            if (currentPage < 1)
             {
-                Console.WriteLine($"User: {user.FirstName} {user.LastName}");
+                currentPage = 1;
+            }
+            else if (currentPage > totalPages)
+            {
+                currentPage = totalPages;
+            }
 
-                Console.WriteLine("Bike Activities:");
-                foreach (var activity in user.BikeActivities)
-                {
-                    Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} km");
-                }
+            int startIndex = (currentPage - 1) * pageSize;
+            int endIndex = Math.Min(startIndex + pageSize, totalUsers);
 
-                Console.WriteLine("Climb Activities:");
-                foreach (var activity in user.ClimbActivities)
-                {
-                    Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} meters");
-                }
-
-                Console.WriteLine("Run Activities:");
-                foreach (var activity in user.RunActivities)
-                {
-                    Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} km");
-                }
-
-                Console.WriteLine("Swim Activities:");
-                foreach (var activity in user.SwimActivities)
-                {
-                    Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} meters");
-                }
-
+            for (int i = startIndex; i < endIndex; i++)
+            {
+                var user = users[i];
+                Console.WriteLine($"\nUser: {user.FirstName} {user.LastName}");
+                PrintUserActivities(user);
                 Console.WriteLine();
             }
+
+            Console.WriteLine($"Page {currentPage}/{totalPages}");
+            Console.WriteLine("Press 'N' for the next page or any other key to exit...\n");
+            var key = Console.ReadKey().Key;
+
+            if (key == ConsoleKey.N && currentPage < totalPages)
+            {
+                return currentPage + 1;
+            }
+            else
+            {
+                return -1;
+            }
+        }
+    }
+
+    private static void PrintUserActivities(User user)
+    {
+        Console.WriteLine("Bike Activities:");
+        foreach (var activity in user.BikeActivities)
+        {
+            Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} km");
+        }
+
+        Console.WriteLine("Climb Activities:");
+        foreach (var activity in user.ClimbActivities)
+        {
+            Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} meters");
+        }
+
+        Console.WriteLine("Run Activities:");
+        foreach (var activity in user.RunActivities)
+        {
+            Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} km");
+        }
+
+        Console.WriteLine("Swim Activities:");
+        foreach (var activity in user.SwimActivities)
+        {
+            Console.WriteLine($"  - Name: {activity.Name}, Distance: {activity.Distance} meters");
         }
     }
 

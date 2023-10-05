@@ -48,7 +48,7 @@
                     ActivityDialog.AddActivityToUser();
                     break;
                 case "5":
-                    ActivityDialog.PrintUsersAndActivities(5);
+                    ActivityDialog.PrintUsersAndActivities();
                     break;
                 case "6":
                     ActivityDialog.PrintSpecificUserAndActivities();
