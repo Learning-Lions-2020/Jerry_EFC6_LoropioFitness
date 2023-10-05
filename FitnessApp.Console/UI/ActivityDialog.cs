@@ -615,6 +615,220 @@ public class ActivityDialog
 
     internal static void DeleteActivityForUserId()
     {
-        throw new NotImplementedException();
+        using (var context = new FitnessAppContext())
+        {
+            Console.WriteLine("Enter User's Id to list their activities: ");
+            string? idToFindString = Console.ReadLine();
+
+            if (int.TryParse(idToFindString, out int userId))
+            {
+                SportActivity sportActivity = new();
+                sportActivity.GetUserAndActivities(userId);
+
+                Console.WriteLine("Select the activity type to delete:");
+                Console.WriteLine("1. Bike Activity\n2. Climb Activity\n3. Run Activity\n4. Swim Activity");
+                Console.Write("Your selection: ");
+
+                if (int.TryParse(Console.ReadLine(), out int selectedActivityIndex) && selectedActivityIndex >= 1 && selectedActivityIndex <= 4)
+                {
+                    ActivityType activityType = (ActivityType)(selectedActivityIndex - 1);
+                    DeleteUserActivity(context, userId, activityType);
+                }
+                else
+                {
+                    Console.WriteLine("Invalid activity selection.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Please enter a valid integer ID.");
+            }
+        }
+    }
+
+    private static void DeleteUserActivity(FitnessAppContext context, int userId, ActivityType activityType)
+    {
+        switch (activityType)
+        {
+            case ActivityType.BikeActivity:
+                DeleteBikeActivity(context, userId);
+                break;
+            case ActivityType.ClimbActivity:
+                DeleteClimbActivity(context, userId);
+                break;
+            case ActivityType.RunActivity:
+                DeleteRunActivity(context, userId);
+                break;
+            case ActivityType.SwimActivity:
+                DeleteSwimActivity(context, userId);
+                break;
+            default:
+                Console.WriteLine("Invalid SportActivity");
+                break;
+        }
+    }
+
+    private static void DeleteBikeActivity(FitnessAppContext context, int userId)
+    {
+        var user = context.Users
+            .Include(u => u.BikeActivities)
+            .FirstOrDefault(u => u.Id == userId);
+
+        if (user != null)
+        {
+            Console.WriteLine("Select the Bike Activity to delete:");
+
+            foreach (var activity in user.BikeActivities)
+            {
+                Console.WriteLine($"Activity Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} km");
+            }
+
+            Console.Write("Enter the Activity Id to delete: ");
+            if (int.TryParse(Console.ReadLine(), out int activityId))
+            {
+                var activityToDelete = user.BikeActivities.FirstOrDefault(a => a.Id == activityId);
+                if (activityToDelete != null)
+                {
+                    context.BikeActivities.Remove(activityToDelete);
+                    context.SaveChanges();
+                    Console.WriteLine($"Bike Activity with Id {activityId} deleted successfully!");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid activity Id.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid Activity Id format.");
+            }
+        }
+        else
+        {
+            Console.WriteLine($"User with Id {userId} not found.");
+        }
+    }
+
+    private static void DeleteClimbActivity(FitnessAppContext context, int userId)
+    {
+        var user = context.Users
+            .Include(u => u.ClimbActivities)
+            .FirstOrDefault(u => u.Id == userId);
+
+        if (user != null)
+        {
+            Console.WriteLine("Select the Climb Activity to delete:");
+
+            foreach (var activity in user.ClimbActivities)
+            {
+                Console.WriteLine($"Activity Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} km");
+            }
+
+            Console.Write("Enter the Activity Id to delete: ");
+            if (int.TryParse(Console.ReadLine(), out int activityId))
+            {
+                var activityToDelete = user.ClimbActivities.FirstOrDefault(a => a.Id == activityId);
+                if (activityToDelete != null)
+                {
+                    context.ClimbActivities.Remove(activityToDelete);
+                    context.SaveChanges();
+                    Console.WriteLine($"Climb Activity with Id {activityId} deleted successfully!");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid activity Id.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid Activity Id format.");
+            }
+        }
+        else
+        {
+            Console.WriteLine($"User with Id {userId} not found.");
+        }
+    }
+
+    private static void DeleteRunActivity(FitnessAppContext context, int userId)
+    {
+        var user = context.Users
+            .Include(u => u.RunActivities)
+            .FirstOrDefault(u => u.Id == userId);
+
+        if (user != null)
+        {
+            Console.WriteLine("Select the Run Activity to delete:");
+
+            foreach (var activity in user.RunActivities)
+            {
+                Console.WriteLine($"Activity Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} km");
+            }
+
+            Console.Write("Enter the Activity Id to delete: ");
+            if (int.TryParse(Console.ReadLine(), out int activityId))
+            {
+                var activityToDelete = user.RunActivities.FirstOrDefault(a => a.Id == activityId);
+                if (activityToDelete != null)
+                {
+                    context.RunActivities.Remove(activityToDelete);
+                    context.SaveChanges();
+                    Console.WriteLine($"Run Activity with Id {activityId} deleted successfully!");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid activity Id.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid Activity Id format.");
+            }
+        }
+        else
+        {
+            Console.WriteLine($"User with Id {userId} not found.");
+        }
+    }
+
+    private static void DeleteSwimActivity(FitnessAppContext context, int userId)
+    {
+        var user = context.Users
+            .Include(u => u.SwimActivities)
+            .FirstOrDefault(u => u.Id == userId);
+
+        if (user != null)
+        {
+            Console.WriteLine("Select the Swim Activity to delete:");
+
+            foreach (var activity in user.SwimActivities)
+            {
+                Console.WriteLine($"Activity Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} km");
+            }
+
+            Console.Write("Enter the Activity Id to delete: ");
+            if (int.TryParse(Console.ReadLine(), out int activityId))
+            {
+                var activityToDelete = user.SwimActivities.FirstOrDefault(a => a.Id == activityId);
+                if (activityToDelete != null)
+                {
+                    context.SwimActivities.Remove(activityToDelete);
+                    context.SaveChanges();
+                    Console.WriteLine($"Swim Activity with Id {activityId} deleted successfully!");
+                }
+                else
+                {
+                    Console.WriteLine("Invalid activity Id.");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid Activity Id format.");
+            }
+        }
+        else
+        {
+            Console.WriteLine($"User with Id {userId} not found.");
+        }
     }
 }
