@@ -2,14 +2,13 @@
 
 namespace FitnessApp.Domain.Activities
 {
-    public class RunActivity
+    public class RunActivity : ISportActivity
     {
-        public int Id { get; set; }
-        public string? Name { get; set; }
-        public double Distance { get; set; }
+        public new int Id { get; set; }
+        public new string? Name { get; set; }
+        public new double Distance { get; set; }
 
         //foreign key to associate with user
-        public int? UserId { get; set; }
-        public User? User { get; set; }
+        public new int? UserId { get; set; }
     }
 }

@@ -212,14 +212,157 @@ public class ActivityDialog
         Console.WriteLine("1. Bike Activity\n2. Climb Activity\n3. Run Activity\n4. Swim Activity");
         Console.Write("Your selection: ");
 
-        if (int.TryParse(Console.ReadLine(), out int selectedActivityIndex) && selectedActivityIndex >= 1 && selectedActivityIndex <= validActivities.Length)
+        string? activityTypeInput = Console.ReadLine();
+
+        if (int.TryParse(activityTypeInput, out int selectedActivityIndex) && selectedActivityIndex >= 1 && selectedActivityIndex <= validActivities.Length)
         {
             ActivityType activityType = validActivities[selectedActivityIndex - 1];
-            OpenActivityDialog(null, activityType); // User parameter is null for activities without a user
+            OpenActivityDialogForActivitiesWithoutUser(activityType);
         }
         else
         {
             Console.WriteLine("Invalid selection.");
+        }
+    }
+
+    private static void OpenActivityDialogForActivitiesWithoutUser(ActivityType activityType)
+    {
+        switch (activityType)
+        {
+            case ActivityType.BikeActivity:
+                AddBikeActivityWithoutUser();
+                break;
+            case ActivityType.ClimbActivity:
+                AddClimbActivityWithoutUser();
+                break;
+            case ActivityType.RunActivity:
+                AddRunActivityWithoutUser();
+                break;
+            case ActivityType.SwimActivity:
+                AddSwimActivityWithoutUser();
+                break;
+            default:
+                Console.WriteLine("Invalid SportActivity");
+                break;
+        }
+    }
+
+    private static void AddBikeActivityWithoutUser()
+    {
+        Console.Write("Name of the bike activity: ");
+        string? activityNameInput = Console.ReadLine();
+
+        Console.Write("Enter distance in km: ");
+        string? distanceInput = Console.ReadLine();
+
+        if (double.TryParse(distanceInput, out double distance) && distance >= 0)
+        {
+            using (var context = new FitnessAppContext())
+            {
+                var bikeActivity = new BikeActivity
+                {
+                    Name = activityNameInput,
+                    Distance = distance,
+                };
+
+                context.BikeActivities.Add(bikeActivity);
+                context.SaveChanges();
+                Console.WriteLine("Added Bike Activity successfully!");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid distance format!");
+        }
+    }
+
+    private static void AddClimbActivityWithoutUser()
+    {
+        Console.Write("Name of the climb activity: ");
+        string? activityNameInput = Console.ReadLine();
+
+        Console.Write("Enter distance in meters: ");
+        string? distanceInput = Console.ReadLine();
+
+        if (double.TryParse(distanceInput, out double distance) && distance >= 0)
+        {
+            using (var context = new FitnessAppContext())
+            {
+                var climbActivity = new ClimbActivity
+                {
+                    Name = activityNameInput,
+                    Distance = distance,
+                };
+
+                context.ClimbActivities.Add(climbActivity);
+
+                context.SaveChanges();
+                Console.WriteLine("Added User and Climb Activity successfully!");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid distance format!");
+        }
+    }
+
+    private static void AddRunActivityWithoutUser()
+    {
+        Console.Write("Name of the swim activity: ");
+        string? activityNameInput = Console.ReadLine();
+
+        Console.Write("Enter distance in meters: ");
+        string? distanceInput = Console.ReadLine();
+
+        if (double.TryParse(distanceInput, out double distance) && distance >= 0)
+        {
+            using (var context = new FitnessAppContext())
+            {
+                var swimActivity = new SwimActivity
+                {
+                    Name = activityNameInput,
+                    Distance = distance,
+                };
+
+                context.SwimActivities.Add(swimActivity);
+
+                context.SaveChanges();
+                Console.WriteLine("Added User and Swim Activity successfully!");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid distance format!");
+        }
+    }
+
+    private static void AddSwimActivityWithoutUser()
+    {
+        Console.Write("Name of the run activity: ");
+        string? activityNameInput = Console.ReadLine();
+
+        Console.Write("Enter distance in km: ");
+        string? distanceInput = Console.ReadLine();
+
+        if (double.TryParse(distanceInput, out double distance) && distance >= 0)
+        {
+            using (var context = new FitnessAppContext())
+            {
+                var runActivity = new RunActivity
+                {
+                    Name = activityNameInput,
+                    Distance = distance,
+                };
+
+                context.RunActivities.Add(runActivity);
+
+                context.SaveChanges();
+                Console.WriteLine("Added User and Run Activity successfully!");
+            }
+        }
+        else
+        {
+            Console.WriteLine("Invalid distance format!");
         }
     }
 
@@ -294,7 +437,6 @@ public class ActivityDialog
             .Where(activity => activity.UserId == null)
             .ToList();
 
-        //specific activity to print available activities
         foreach (var activity in availableBikeActivities)
         {
             Console.WriteLine($"Activity Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} km");
@@ -631,7 +773,7 @@ public class ActivityDialog
 
                 if (int.TryParse(Console.ReadLine(), out int selectedActivityIndex) && selectedActivityIndex >= 1 && selectedActivityIndex <= 4)
                 {
-                    ActivityType activityType = (ActivityType)(selectedActivityIndex - 1);
+                    ActivityType activityType = (ActivityType)(selectedActivityIndex);
                     DeleteUserActivity(context, userId, activityType);
                 }
                 else
@@ -676,31 +818,38 @@ public class ActivityDialog
 
         if (user != null)
         {
-            Console.WriteLine("Select the Bike Activity to delete:");
-
-            foreach (var activity in user.BikeActivities)
+            if (user.BikeActivities.Any())
             {
-                Console.WriteLine($"Activity Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} km");
-            }
+                Console.WriteLine("Select the Bike Activity to delete:");
 
-            Console.Write("Enter the Activity Id to delete: ");
-            if (int.TryParse(Console.ReadLine(), out int activityId))
-            {
-                var activityToDelete = user.BikeActivities.FirstOrDefault(a => a.Id == activityId);
-                if (activityToDelete != null)
+                foreach (var activity in user.BikeActivities)
                 {
-                    context.BikeActivities.Remove(activityToDelete);
-                    context.SaveChanges();
-                    Console.WriteLine($"Bike Activity with Id {activityId} deleted successfully!");
+                    Console.WriteLine($"Activity Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} km");
+                }
+
+                Console.Write("Enter the Activity Id to delete: ");
+                if (int.TryParse(Console.ReadLine(), out int activityId))
+                {
+                    var activityToDelete = user.BikeActivities.FirstOrDefault(a => a.Id == activityId);
+                    if (activityToDelete != null)
+                    {
+                        context.BikeActivities.Remove(activityToDelete);
+                        context.SaveChanges();
+                        Console.WriteLine($"Bike Activity with Id {activityId} deleted successfully!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid activity Id.");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid activity Id.");
+                    Console.WriteLine("Invalid Activity Id format.");
                 }
             }
             else
             {
-                Console.WriteLine("Invalid Activity Id format.");
+                Console.WriteLine("No bike activities recorded for this user.");
             }
         }
         else
@@ -717,31 +866,38 @@ public class ActivityDialog
 
         if (user != null)
         {
-            Console.WriteLine("Select the Climb Activity to delete:");
-
-            foreach (var activity in user.ClimbActivities)
+            if (user.ClimbActivities.Any())
             {
-                Console.WriteLine($"Activity Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} km");
-            }
+                Console.WriteLine("Select the Climb Activity to delete:");
 
-            Console.Write("Enter the Activity Id to delete: ");
-            if (int.TryParse(Console.ReadLine(), out int activityId))
-            {
-                var activityToDelete = user.ClimbActivities.FirstOrDefault(a => a.Id == activityId);
-                if (activityToDelete != null)
+                foreach (var activity in user.ClimbActivities)
                 {
-                    context.ClimbActivities.Remove(activityToDelete);
-                    context.SaveChanges();
-                    Console.WriteLine($"Climb Activity with Id {activityId} deleted successfully!");
+                    Console.WriteLine($"Activity Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} km");
+                }
+
+                Console.Write("Enter the Activity Id to delete: ");
+                if (int.TryParse(Console.ReadLine(), out int activityId))
+                {
+                    var activityToDelete = user.ClimbActivities.FirstOrDefault(a => a.Id == activityId);
+                    if (activityToDelete != null)
+                    {
+                        context.ClimbActivities.Remove(activityToDelete);
+                        context.SaveChanges();
+                        Console.WriteLine($"Climb Activity with Id {activityId} deleted successfully!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid activity Id.");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid activity Id.");
+                    Console.WriteLine("Invalid Activity Id format.");
                 }
             }
             else
             {
-                Console.WriteLine("Invalid Activity Id format.");
+                Console.WriteLine("No climb activities recorded for this user.");
             }
         }
         else
@@ -758,31 +914,38 @@ public class ActivityDialog
 
         if (user != null)
         {
-            Console.WriteLine("Select the Run Activity to delete:");
-
-            foreach (var activity in user.RunActivities)
+            if (user.RunActivities.Any())
             {
-                Console.WriteLine($"Activity Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} km");
-            }
+                Console.WriteLine("Select the Run Activity to delete:");
 
-            Console.Write("Enter the Activity Id to delete: ");
-            if (int.TryParse(Console.ReadLine(), out int activityId))
-            {
-                var activityToDelete = user.RunActivities.FirstOrDefault(a => a.Id == activityId);
-                if (activityToDelete != null)
+                foreach (var activity in user.RunActivities)
                 {
-                    context.RunActivities.Remove(activityToDelete);
-                    context.SaveChanges();
-                    Console.WriteLine($"Run Activity with Id {activityId} deleted successfully!");
+                    Console.WriteLine($"Activity Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} km");
+                }
+
+                Console.Write("Enter the Activity Id to delete: ");
+                if (int.TryParse(Console.ReadLine(), out int activityId))
+                {
+                    var activityToDelete = user.RunActivities.FirstOrDefault(a => a.Id == activityId);
+                    if (activityToDelete != null)
+                    {
+                        context.RunActivities.Remove(activityToDelete);
+                        context.SaveChanges();
+                        Console.WriteLine($"Run Activity with Id {activityId} deleted successfully!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid activity Id.");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid activity Id.");
+                    Console.WriteLine("Invalid Activity Id format.");
                 }
             }
             else
             {
-                Console.WriteLine("Invalid Activity Id format.");
+                Console.WriteLine("No run activities recorded for this user.");
             }
         }
         else
@@ -799,31 +962,38 @@ public class ActivityDialog
 
         if (user != null)
         {
-            Console.WriteLine("Select the Swim Activity to delete:");
-
-            foreach (var activity in user.SwimActivities)
+            if (user.SwimActivities.Any()) // Check if there are any swim activities
             {
-                Console.WriteLine($"Activity Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} km");
-            }
+                Console.WriteLine("Select the Swim Activity to delete:");
 
-            Console.Write("Enter the Activity Id to delete: ");
-            if (int.TryParse(Console.ReadLine(), out int activityId))
-            {
-                var activityToDelete = user.SwimActivities.FirstOrDefault(a => a.Id == activityId);
-                if (activityToDelete != null)
+                foreach (var activity in user.SwimActivities)
                 {
-                    context.SwimActivities.Remove(activityToDelete);
-                    context.SaveChanges();
-                    Console.WriteLine($"Swim Activity with Id {activityId} deleted successfully!");
+                    Console.WriteLine($"Activity Id: {activity.Id}, Name: {activity.Name}, Distance: {activity.Distance} km");
+                }
+
+                Console.Write("Enter the Activity Id to delete: ");
+                if (int.TryParse(Console.ReadLine(), out int activityId))
+                {
+                    var activityToDelete = user.SwimActivities.FirstOrDefault(a => a.Id == activityId);
+                    if (activityToDelete != null)
+                    {
+                        context.SwimActivities.Remove(activityToDelete);
+                        context.SaveChanges();
+                        Console.WriteLine($"Swim Activity with Id {activityId} deleted successfully!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid activity Id.");
+                    }
                 }
                 else
                 {
-                    Console.WriteLine("Invalid activity Id.");
+                    Console.WriteLine("Invalid Activity Id format.");
                 }
             }
             else
             {
-                Console.WriteLine("Invalid Activity Id format.");
+                Console.WriteLine("No swim activities recorded for this user.");
             }
         }
         else
@@ -831,4 +1001,5 @@ public class ActivityDialog
             Console.WriteLine($"User with Id {userId} not found.");
         }
     }
+
 }
