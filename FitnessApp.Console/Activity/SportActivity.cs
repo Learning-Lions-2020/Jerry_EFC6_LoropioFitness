@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 public class SportActivity
 {
-    FitnessAppContext fitnessAppContext = new();
+    readonly FitnessAppContext fitnessAppContext = new();
     public User AddUser(string? firstName, string? lastName)
     {
         var user = new User()

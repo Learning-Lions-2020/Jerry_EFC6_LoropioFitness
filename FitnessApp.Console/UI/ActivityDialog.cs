@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 public class ActivityDialog
 {
-    private static ActivityType[] validActivities = { ActivityType.BikeActivity, ActivityType.ClimbActivity, ActivityType.RunActivity, ActivityType.SwimActivity };
+    private static readonly ActivityType[] validActivities = { ActivityType.BikeActivity, ActivityType.ClimbActivity, ActivityType.RunActivity, ActivityType.SwimActivity };
     private static int currentPage = 1;
-    private static int pageSize = 1;
+    private static readonly int pageSize = 1;
 
     internal static void AddUserWithActivities()
     {
-        SportActivity sportActivity = new SportActivity();
+        SportActivity sportActivity = new();
 
         Console.WriteLine("Enter First Name: ");
         string? firstName = Console.ReadLine();
@@ -71,20 +71,18 @@ public class ActivityDialog
 
         if (double.TryParse(distanceInput, out double distance) && distance >= 0)
         {
-            using (var context = new FitnessAppContext())
+            using var context = new FitnessAppContext();
+            var bikeActivity = new BikeActivity
             {
-                var bikeActivity = new BikeActivity
-                {
-                    Name = activityNameInput,
-                    Distance = distance,
-                };
+                Name = activityNameInput,
+                Distance = distance,
+            };
 
-                user.BikeActivities.Add(bikeActivity);
-                context.Users.Update(user);
+            user.BikeActivities.Add(bikeActivity);
+            context.Users.Update(user);
 
-                context.SaveChanges();
-                Console.WriteLine("Added User and Bike Activity successfully!");
-            }
+            context.SaveChanges();
+            Console.WriteLine("Added User and Bike Activity successfully!");
         }
         else
         {
@@ -102,20 +100,18 @@ public class ActivityDialog
 
         if (double.TryParse(distanceInput, out double distance) && distance >= 0)
         {
-            using (var context = new FitnessAppContext())
+            using var context = new FitnessAppContext();
+            var climbActivity = new ClimbActivity
             {
-                var climbActivity = new ClimbActivity
-                {
-                    Name = activityNameInput,
-                    Distance = distance,
-                };
+                Name = activityNameInput,
+                Distance = distance,
+            };
 
-                user.ClimbActivities.Add(climbActivity);
-                context.Users.Update(user);
+            user.ClimbActivities.Add(climbActivity);
+            context.Users.Update(user);
 
-                context.SaveChanges();
-                Console.WriteLine("Added User and Climb Activity successfully!");
-            }
+            context.SaveChanges();
+            Console.WriteLine("Added User and Climb Activity successfully!");
         }
         else
         {
@@ -133,20 +129,18 @@ public class ActivityDialog
 
         if (double.TryParse(distanceInput, out double distance) && distance >= 0)
         {
-            using (var context = new FitnessAppContext())
+            using var context = new FitnessAppContext();
+            var swimActivity = new SwimActivity
             {
-                var swimActivity = new SwimActivity
-                {
-                    Name = activityNameInput,
-                    Distance = distance,
-                };
+                Name = activityNameInput,
+                Distance = distance,
+            };
 
-                user.SwimActivities.Add(swimActivity);
-                context.Users.Update(user);
+            user.SwimActivities.Add(swimActivity);
+            context.Users.Update(user);
 
-                context.SaveChanges();
-                Console.WriteLine("Added User and Swim Activity successfully!");
-            }
+            context.SaveChanges();
+            Console.WriteLine("Added User and Swim Activity successfully!");
         }
         else
         {
@@ -164,20 +158,18 @@ public class ActivityDialog
 
         if (double.TryParse(distanceInput, out double distance) && distance >= 0)
         {
-            using (var context = new FitnessAppContext())
+            using var context = new FitnessAppContext();
+            var runActivity = new RunActivity
             {
-                var runActivity = new RunActivity
-                {
-                    Name = activityNameInput,
-                    Distance = distance,
-                };
+                Name = activityNameInput,
+                Distance = distance,
+            };
 
-                user.RunActivities.Add(runActivity);
-                context.Users.Update(user);
+            user.RunActivities.Add(runActivity);
+            context.Users.Update(user);
 
-                context.SaveChanges();
-                Console.WriteLine("Added User and Run Activity successfully!");
-            }
+            context.SaveChanges();
+            Console.WriteLine("Added User and Run Activity successfully!");
         }
         else
         {
@@ -187,23 +179,21 @@ public class ActivityDialog
 
     internal static void AddUserWithoutActivities()
     {
-        using (var context = new FitnessAppContext())
-        {
-            Console.WriteLine("Enter First Name: ");
-            string? firstName = Console.ReadLine();
+        using var context = new FitnessAppContext();
+        Console.WriteLine("Enter First Name: ");
+        string? firstName = Console.ReadLine();
 
-            Console.WriteLine("Enter Last Name: ");
-            string? lastName = Console.ReadLine();
+        Console.WriteLine("Enter Last Name: ");
+        string? lastName = Console.ReadLine();
 
-            SportActivity sportActivity = new();
+        SportActivity sportActivity = new();
 
-            var newUser = sportActivity.AddUser(firstName, lastName);
+        var newUser = sportActivity.AddUser(firstName, lastName);
 
-            context.Users.Add(newUser);
-            context.SaveChanges();
+        context.Users.Add(newUser);
+        context.SaveChanges();
 
-            Console.WriteLine("User added successfully!");
-        }
+        Console.WriteLine("User added successfully!");
     }
 
     internal static void AddActivitiesWithoutUser()
@@ -257,18 +247,16 @@ public class ActivityDialog
 
         if (double.TryParse(distanceInput, out double distance) && distance >= 0)
         {
-            using (var context = new FitnessAppContext())
+            using var context = new FitnessAppContext();
+            var bikeActivity = new BikeActivity
             {
-                var bikeActivity = new BikeActivity
-                {
-                    Name = activityNameInput,
-                    Distance = distance,
-                };
+                Name = activityNameInput,
+                Distance = distance,
+            };
 
-                context.BikeActivities.Add(bikeActivity);
-                context.SaveChanges();
-                Console.WriteLine("Added Bike Activity successfully!");
-            }
+            context.BikeActivities.Add(bikeActivity);
+            context.SaveChanges();
+            Console.WriteLine("Added Bike Activity successfully!");
         }
         else
         {
@@ -286,19 +274,17 @@ public class ActivityDialog
 
         if (double.TryParse(distanceInput, out double distance) && distance >= 0)
         {
-            using (var context = new FitnessAppContext())
+            using var context = new FitnessAppContext();
+            var climbActivity = new ClimbActivity
             {
-                var climbActivity = new ClimbActivity
-                {
-                    Name = activityNameInput,
-                    Distance = distance,
-                };
+                Name = activityNameInput,
+                Distance = distance,
+            };
 
-                context.ClimbActivities.Add(climbActivity);
+            context.ClimbActivities.Add(climbActivity);
 
-                context.SaveChanges();
-                Console.WriteLine("Added User and Climb Activity successfully!");
-            }
+            context.SaveChanges();
+            Console.WriteLine("Added User and Climb Activity successfully!");
         }
         else
         {
@@ -316,19 +302,17 @@ public class ActivityDialog
 
         if (double.TryParse(distanceInput, out double distance) && distance >= 0)
         {
-            using (var context = new FitnessAppContext())
+            using var context = new FitnessAppContext();
+            var swimActivity = new SwimActivity
             {
-                var swimActivity = new SwimActivity
-                {
-                    Name = activityNameInput,
-                    Distance = distance,
-                };
+                Name = activityNameInput,
+                Distance = distance,
+            };
 
-                context.SwimActivities.Add(swimActivity);
+            context.SwimActivities.Add(swimActivity);
 
-                context.SaveChanges();
-                Console.WriteLine("Added User and Swim Activity successfully!");
-            }
+            context.SaveChanges();
+            Console.WriteLine("Added User and Swim Activity successfully!");
         }
         else
         {
@@ -346,19 +330,17 @@ public class ActivityDialog
 
         if (double.TryParse(distanceInput, out double distance) && distance >= 0)
         {
-            using (var context = new FitnessAppContext())
+            using var context = new FitnessAppContext();
+            var runActivity = new RunActivity
             {
-                var runActivity = new RunActivity
-                {
-                    Name = activityNameInput,
-                    Distance = distance,
-                };
+                Name = activityNameInput,
+                Distance = distance,
+            };
 
-                context.RunActivities.Add(runActivity);
+            context.RunActivities.Add(runActivity);
 
-                context.SaveChanges();
-                Console.WriteLine("Added User and Run Activity successfully!");
-            }
+            context.SaveChanges();
+            Console.WriteLine("Added User and Run Activity successfully!");
         }
         else
         {
@@ -371,44 +353,42 @@ public class ActivityDialog
         Console.WriteLine("Which user do you want to add an activity to? Enter user id:");
         if (int.TryParse(Console.ReadLine(), out int userId))
         {
-            using (var context = new FitnessAppContext())
+            using var context = new FitnessAppContext();
+            var user = context.Users
+                .Include(u => u.BikeActivities)
+                .Include(u => u.ClimbActivities)
+                .Include(u => u.RunActivities)
+                .Include(u => u.SwimActivities)
+                .FirstOrDefault(u => u.Id == userId);
+
+            if (user == null)
             {
-                var user = context.Users
-                    .Include(u => u.BikeActivities)
-                    .Include(u => u.ClimbActivities)
-                    .Include(u => u.RunActivities)
-                    .Include(u => u.SwimActivities)
-                    .FirstOrDefault(u => u.Id == userId);
+                Console.WriteLine($"User with id {userId} not found.");
+                return;
+            }
 
-                if (user == null)
-                {
-                    Console.WriteLine($"User with id {userId} not found.");
-                    return;
-                }
+            Console.WriteLine("Do you want to add an existing activity or a new activity?");
+            Console.WriteLine("1. Existing Activity\n2. New Activity");
+            Console.Write("Your selection: ");
 
-                Console.WriteLine("Do you want to add an existing activity or a new activity?");
-                Console.WriteLine("1. Existing Activity\n2. New Activity");
-                Console.Write("Your selection: ");
-
-                if (int.TryParse(Console.ReadLine(), out int choice))
+            if (int.TryParse(Console.ReadLine(), out int choice))
+            {
+                switch (choice)
                 {
-                    switch (choice)
-                    {
-                        case 1:
-                            AssignExistingActivityToUser(context, user);
-                            break;
-                        case 2:
-                            AddNewActivityToUser(context, user);
-                            break;
-                        default:
-                            Console.WriteLine("Invalid choice.");
-                            break;
-                    }
+                    case 1:
+                        AssignExistingActivityToUser(context, user);
+                        break;
+                    case 2:
+                        AddNewActivityToUser(context, user);
+                        break;
+                    default:
+                        Console.WriteLine("Invalid choice.");
+                        break;
                 }
-                else
-                {
-                    Console.WriteLine("Invalid choice.");
-                }
+            }
+            else
+            {
+                Console.WriteLine("Invalid choice.");
             }
         }
         else
@@ -535,51 +515,49 @@ public class ActivityDialog
 
     internal static int PrintUsersAndActivities(int currentPage, int pageSize)
     {
-        using (var context = new FitnessAppContext())
+        using var context = new FitnessAppContext();
+        var users = context.Users
+            .Include(u => u.BikeActivities)
+            .Include(u => u.ClimbActivities)
+            .Include(u => u.RunActivities)
+            .Include(u => u.SwimActivities)
+            .OrderBy(u => u.Id)
+            .ToList();
+
+        int totalUsers = users.Count;
+        int totalPages = (int)Math.Ceiling((double)totalUsers / pageSize); //Math.Ceiling is not covered in the course
+
+        if (currentPage < 1)
         {
-            var users = context.Users
-                .Include(u => u.BikeActivities)
-                .Include(u => u.ClimbActivities)
-                .Include(u => u.RunActivities)
-                .Include(u => u.SwimActivities)
-                .OrderBy(u => u.Id)
-                .ToList();
+            currentPage = 1;
+        }
+        else if (currentPage > totalPages)
+        {
+            currentPage = totalPages;
+        }
 
-            int totalUsers = users.Count;
-            int totalPages = (int)Math.Ceiling((double)totalUsers / pageSize); //Math.Ceiling is not covered in the course
+        int startIndex = (currentPage - 1) * pageSize;
+        int endIndex = Math.Min(startIndex + pageSize, totalUsers);
 
-            if (currentPage < 1)
-            {
-                currentPage = 1;
-            }
-            else if (currentPage > totalPages)
-            {
-                currentPage = totalPages;
-            }
+        for (int i = startIndex; i < endIndex; i++)
+        {
+            var user = users[i];
+            Console.WriteLine($"\nUser: {user.FirstName} {user.LastName}");
+            PrintUserActivities(user);
+            Console.WriteLine();
+        }
 
-            int startIndex = (currentPage - 1) * pageSize;
-            int endIndex = Math.Min(startIndex + pageSize, totalUsers);
+        Console.WriteLine($"Page {currentPage}/{totalPages}");
+        Console.WriteLine("Press 'N' for the next page or any other key to exit...\n");
+        var key = Console.ReadKey().Key;
 
-            for (int i = startIndex; i < endIndex; i++)
-            {
-                var user = users[i];
-                Console.WriteLine($"\nUser: {user.FirstName} {user.LastName}");
-                PrintUserActivities(user);
-                Console.WriteLine();
-            }
-
-            Console.WriteLine($"Page {currentPage}/{totalPages}");
-            Console.WriteLine("Press 'N' for the next page or any other key to exit...\n");
-            var key = Console.ReadKey().Key;
-
-            if (key == ConsoleKey.N && currentPage < totalPages)
-            {
-                return currentPage + 1;
-            }
-            else
-            {
-                return -1;
-            }
+        if (key == ConsoleKey.N && currentPage < totalPages)
+        {
+            return currentPage + 1;
+        }
+        else
+        {
+            return -1;
         }
     }
 
@@ -724,28 +702,26 @@ public class ActivityDialog
         {
             sportActivity.GetUserAndActivities(userId);
 
-            using (var context = new FitnessAppContext())
+            using var context = new FitnessAppContext();
+            var user = context.Users.Include(u => u.BikeActivities)
+                                  .Include(u => u.ClimbActivities)
+                                  .Include(u => u.RunActivities)
+                                  .Include(u => u.SwimActivities)
+                                  .FirstOrDefault(u => u.Id == userId);
+
+            if (user != null)
             {
-                var user = context.Users.Include(u => u.BikeActivities)
-                                      .Include(u => u.ClimbActivities)
-                                      .Include(u => u.RunActivities)
-                                      .Include(u => u.SwimActivities)
-                                      .FirstOrDefault(u => u.Id == userId);
-
-                if (user != null)
+                Console.WriteLine("Press Enter to confirm deletion, or any other key to cancel...");
+                if (Console.ReadKey().Key == ConsoleKey.Enter)
                 {
-                    Console.WriteLine("Press Enter to confirm deletion, or any other key to cancel...");
-                    if (Console.ReadKey().Key == ConsoleKey.Enter)
-                    {
-                        context.Users.Remove(user);
-                        context.SaveChanges();
+                    context.Users.Remove(user);
+                    context.SaveChanges();
 
-                        Console.WriteLine("User and associated activities deleted successfully!");
-                    }
-                    else
-                    {
-                        Console.WriteLine("Deletion canceled.");
-                    }
+                    Console.WriteLine("User and associated activities deleted successfully!");
+                }
+                else
+                {
+                    Console.WriteLine("Deletion canceled.");
                 }
             }
         }
@@ -757,34 +733,32 @@ public class ActivityDialog
 
     internal static void DeleteActivityForUserId()
     {
-        using (var context = new FitnessAppContext())
+        using var context = new FitnessAppContext();
+        Console.WriteLine("Enter User's Id to list their activities: ");
+        string? idToFindString = Console.ReadLine();
+
+        if (int.TryParse(idToFindString, out int userId))
         {
-            Console.WriteLine("Enter User's Id to list their activities: ");
-            string? idToFindString = Console.ReadLine();
+            SportActivity sportActivity = new();
+            sportActivity.GetUserAndActivities(userId);
 
-            if (int.TryParse(idToFindString, out int userId))
+            Console.WriteLine("Select the activity type to delete:");
+            Console.WriteLine("1. Bike Activity\n2. Climb Activity\n3. Run Activity\n4. Swim Activity");
+            Console.Write("Your selection: ");
+
+            if (int.TryParse(Console.ReadLine(), out int selectedActivityIndex) && selectedActivityIndex >= 1 && selectedActivityIndex <= 4)
             {
-                SportActivity sportActivity = new();
-                sportActivity.GetUserAndActivities(userId);
-
-                Console.WriteLine("Select the activity type to delete:");
-                Console.WriteLine("1. Bike Activity\n2. Climb Activity\n3. Run Activity\n4. Swim Activity");
-                Console.Write("Your selection: ");
-
-                if (int.TryParse(Console.ReadLine(), out int selectedActivityIndex) && selectedActivityIndex >= 1 && selectedActivityIndex <= 4)
-                {
-                    ActivityType activityType = (ActivityType)(selectedActivityIndex);
-                    DeleteUserActivity(context, userId, activityType);
-                }
-                else
-                {
-                    Console.WriteLine("Invalid activity selection.");
-                }
+                ActivityType activityType = (ActivityType)(selectedActivityIndex);
+                DeleteUserActivity(context, userId, activityType);
             }
             else
             {
-                Console.WriteLine("Invalid input. Please enter a valid integer ID.");
+                Console.WriteLine("Invalid activity selection.");
             }
+        }
+        else
+        {
+            Console.WriteLine("Invalid input. Please enter a valid integer ID.");
         }
     }
 
