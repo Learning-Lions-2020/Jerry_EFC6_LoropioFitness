@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace FitnessApp.Domain.Security
 {
@@ -29,19 +25,6 @@ namespace FitnessApp.Domain.Security
         {
             var hashToCompare = Rfc2898DeriveBytes.Pbkdf2(password, Convert.FromHexString(salt), iterations, hashAlgorithm, keySize);
             return Convert.ToHexString(hashToCompare) == hash;
-        }
-
-        static byte[] ConvertHexToByteArray(string hexString)
-        {
-            int length = hexString.Length;
-            byte[] byteArray = new byte[length / 2];
-
-            for (int i = 0; i < length; i += 2)
-            {
-                byteArray[i / 2] = Convert.ToByte(hexString.Substring(i, 2), 16);
-            }
-
-            return byteArray;
         }
     }
 }

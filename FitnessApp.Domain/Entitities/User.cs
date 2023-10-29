@@ -1,7 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using System.Security.Cryptography;
-using System.Text;
 using FitnessApp.Domain.Contracts;
 using FitnessApp.Domain.Security;
 
