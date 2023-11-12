@@ -15,6 +15,7 @@ public class UserDialog
         userRepository = new UserRepository();
         user = new User(userRepository);
     }
+
     public void StartLogonDialog()
     {
         string? userSelection;
