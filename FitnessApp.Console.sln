@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitnessApp.Console", "FitnessApp.Console\FitnessApp.Console.csproj", "{5592458B-E552-4CBB-82BE-A264DF4B1869}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitnessApp.UI", "FitnessApp.Console\FitnessApp.UI.csproj", "{5592458B-E552-4CBB-82BE-A264DF4B1869}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitnessApp.Data", "FitnessApp.Data\FitnessApp.Data.csproj", "{7CF39879-C742-413F-9E4B-BFF1C90472E5}"
 EndProject

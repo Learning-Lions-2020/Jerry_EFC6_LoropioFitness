@@ -1,6 +1,6 @@
 using FitnessApp.Domain;
 using FitnessApp.Domain.Contracts;
-using FitnessApp.Domain.Entitities;
+using FitnessApp.Domain.Entities;
 using Moq;
 using Xunit;
 

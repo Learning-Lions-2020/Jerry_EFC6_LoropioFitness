@@ -1,3 +1,3 @@
-﻿using FitnessApp.UIServices.Dialog;
+﻿using FitnessApp.UI.Dialog;
 
-new UserDialog().StartDialog();
+new UserDialog().StartLogonDialog();

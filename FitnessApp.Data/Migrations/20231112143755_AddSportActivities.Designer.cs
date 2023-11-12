@@ -4,6 +4,7 @@ using FitnessApp.Data.DBContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitnessApp.Data.Migrations
 {
     [DbContext(typeof(FitnessAppContext))]
-    partial class FitnessAppContextModelSnapshot : ModelSnapshot
+    [Migration("20231112143755_AddSportActivities")]
+    partial class AddSportActivities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -40,7 +43,7 @@ namespace FitnessApp.Data.Migrations
                     b.Property<TimeSpan>("TimeTaken")
                         .HasColumnType("time");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -77,13 +80,9 @@ namespace FitnessApp.Data.Migrations
 
             modelBuilder.Entity("FitnessApp.Domain.Entities.Base.SportActivity", b =>
                 {
-                    b.HasOne("FitnessApp.Domain.Entities.User", "User")
+                    b.HasOne("FitnessApp.Domain.Entities.User", null)
                         .WithMany("SportActivities")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("FitnessApp.Domain.Entities.User", b =>

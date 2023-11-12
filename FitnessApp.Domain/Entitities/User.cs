@@ -1,8 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using FitnessApp.Domain.Contracts;
+using FitnessApp.Domain.Entities.Base;
 using FitnessApp.Domain.Security;
 
-namespace FitnessApp.Domain.Entitities;
+namespace FitnessApp.Domain.Entities;
 
 public class User
 {
@@ -11,6 +12,8 @@ public class User
     public string UserName { get; set; } = string.Empty;
     public string PasswordHash { get; set; } = string.Empty;
     public string PasswordSalt { get; set; } = string.Empty;
+    
+    public ICollection<SportActivity> SportActivities { get; set; } = new List<SportActivity>();
 
     private static IUserRepository _userRepository;
 
@@ -21,6 +24,11 @@ public class User
         _userRepository = userRepository;
     }
 
+    public void AddActivity(SportActivity activity)
+    {
+        SportActivities.Add(activity);
+    } 
+    
     public void Register(string userName, string password)
     {
         var hash = SecurityProvider.HashPasword(password, out var salt);
@@ -28,12 +36,36 @@ public class User
         user.UserName = userName;
         user.PasswordSalt = Convert.ToHexString(salt);
         user.PasswordHash = hash;
-        _userRepository.Save(user);
-    } 
+        _userRepository.AddUser(user);
+    }
+
+    public User? GetUser(int userId)
+    {
+        return _userRepository.GetUserById(userId);
+    }
 
     public bool GetCredentialsAreValid(string userName, string password)
     {
-        var user = _userRepository.GetUser(userName);
-        return SecurityProvider.VerifyPassword(password, user.PasswordHash, user.PasswordSalt);
+        try
+        {
+            var user = _userRepository.GetUser(userName);
+            if (SecurityProvider.VerifyPassword(password, user.PasswordHash, user.PasswordSalt))
+            {
+                UserName = userName;
+                Id = user.Id;
+                return true;
+            }
+            return false;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+        return false;
+    }
+
+    public void SaveOrUpdate()
+    {
+        _userRepository.SaveOrUpdate();
     }
 }

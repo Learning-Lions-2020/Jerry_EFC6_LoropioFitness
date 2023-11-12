@@ -1,10 +1,12 @@
-﻿using FitnessApp.Domain.Entitities;
+﻿using FitnessApp.Domain.Entities;
 
 namespace FitnessApp.Domain.Contracts
 {
     public interface IUserRepository
     {
         User GetUser(string userName);
-        public User Save(User user);
+        public User AddUser(User user);
+        public void SaveOrUpdate();
+        public User? GetUserById(int userId);
     }
 }

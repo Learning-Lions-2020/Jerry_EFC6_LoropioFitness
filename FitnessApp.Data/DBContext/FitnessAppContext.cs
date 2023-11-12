@@ -1,4 +1,5 @@
-﻿using FitnessApp.Domain.Entitities;
+﻿using FitnessApp.Domain.Entities;
+using FitnessApp.Domain.Entities.Base;
 using Microsoft.EntityFrameworkCore;
 
 namespace FitnessApp.Data.DBContext
@@ -6,12 +7,22 @@ namespace FitnessApp.Data.DBContext
     public class FitnessAppContext : DbContext
     {
         public DbSet<User> Users { get; set; }
+        public DbSet<SportActivity> SportActivities { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(
                 "Server = localhost\\SQLEXPRESS; Database=FitnessDb; Trusted_Connection = True;TrustServerCertificate=True"
                 );
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>()
+                .HasMany(s => s.SportActivities)
+                .WithOne(e => e.User)
+                .IsRequired()
+                .HasForeignKey(x => x.UserId);
         }
     }
 }
