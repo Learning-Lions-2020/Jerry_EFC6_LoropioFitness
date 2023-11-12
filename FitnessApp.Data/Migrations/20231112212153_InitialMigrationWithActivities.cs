@@ -6,11 +6,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FitnessApp.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class AddSportActivities : Migration
+    public partial class InitialMigrationWithActivities : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Users",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PasswordSalt = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "SportActivities",
                 columns: table => new
@@ -20,7 +35,7 @@ namespace FitnessApp.Data.Migrations
                     TimeTaken = table.Column<TimeSpan>(type: "time", nullable: false),
                     ActivityDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Feeling = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: true)
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -29,7 +44,8 @@ namespace FitnessApp.Data.Migrations
                         name: "FK_SportActivities_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -43,6 +59,9 @@ namespace FitnessApp.Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "SportActivities");
+
+            migrationBuilder.DropTable(
+                name: "Users");
         }
     }
 }

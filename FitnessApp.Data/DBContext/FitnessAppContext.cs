@@ -21,8 +21,7 @@ namespace FitnessApp.Data.DBContext
             modelBuilder.Entity<User>()
                 .HasMany(s => s.SportActivities)
                 .WithOne(e => e.User)
-                .IsRequired()
-                .HasForeignKey(x => x.UserId);
+                .IsRequired();
         }
     }
 }

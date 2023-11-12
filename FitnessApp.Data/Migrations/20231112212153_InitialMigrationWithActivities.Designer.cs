@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FitnessApp.Data.Migrations
 {
     [DbContext(typeof(FitnessAppContext))]
-    [Migration("20231112200239_AddSportActivityUserRelation")]
-    partial class AddSportActivityUserRelation
+    [Migration("20231112212153_InitialMigrationWithActivities")]
+    partial class InitialMigrationWithActivities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
