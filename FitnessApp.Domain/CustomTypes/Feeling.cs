@@ -1,11 +1,10 @@
-﻿namespace FitnessApp.Domain.CustomTypes
+﻿namespace FitnessApp.Domain.CustomTypes;
+
+public enum Feeling
 {
-    public enum Feeling
-    {
-        Bad = 1,
-        Ok = 2,
-        Good = 3,
-        Strong = 4,
-        VeryStrong = 5
-    }
+    Bad = 1,
+    Ok = 2,
+    Good = 3,
+    Strong = 4,
+    VeryStrong = 5
 }

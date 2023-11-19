@@ -48,12 +48,12 @@ namespace FitnessApp.UI.Dialog
         {
             switch (activityType)
             {
-                case ActivityType.Running:
-                    AddRunActivity(activityType);
+                case ActivityType.RunActivity:
+                    AddRunActivity();
                     break;
             }
 
-            void AddRunActivity(ActivityType activityType)
+            void AddRunActivity()
             {
                 try
                 {
@@ -82,6 +82,7 @@ namespace FitnessApp.UI.Dialog
                     Console.WriteLine("5. VERY STRONG");
                     string afterActivityFeeling = Console.ReadLine();
 
+
                     if (afterActivityFeeling != null)
                     {
                         Feeling feeling = (Feeling)Enum.Parse(typeof(Feeling), afterActivityFeeling);
@@ -92,9 +93,10 @@ namespace FitnessApp.UI.Dialog
                             Distance = distanceCovered,
                             Feeling = feeling,
                             TimeTaken = timeTaken
-
                         };
+                        
                         var user = new User().GetUser(_userId);
+                        
                         if (user != null)
                         {
                             user.AddActivity(runActivity);

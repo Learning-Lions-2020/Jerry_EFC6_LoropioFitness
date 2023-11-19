@@ -1,10 +1,9 @@
-﻿namespace FitnessApp.Data.Exceptions
+﻿namespace FitnessApp.Data.Exceptions;
+
+public class UserNotFoundException : Exception
 {
-    public class UserNotFoundException : Exception
-    {
-        public UserNotFoundException() { }
+    public UserNotFoundException() { }
 
-        public UserNotFoundException(string message) : base(message) { }
+    public UserNotFoundException(string message) : base(message) { }
 
-    }
 }

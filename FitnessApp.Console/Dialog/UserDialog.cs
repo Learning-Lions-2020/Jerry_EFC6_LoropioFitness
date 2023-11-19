@@ -1,7 +1,6 @@
 ﻿using FitnessApp.Data.Repository;
 using FitnessApp.Domain.Contracts;
-using FitnessApp.Domain.Entities;
-using Microsoft.Identity.Client;
+using FitnessApp.Domain.Entitities;
 
 namespace FitnessApp.UI.Dialog;
 

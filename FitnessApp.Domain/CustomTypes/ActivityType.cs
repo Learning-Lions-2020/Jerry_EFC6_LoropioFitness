@@ -8,9 +8,10 @@ namespace FitnessApp.Domain.CustomTypes
 {
     public enum ActivityType
     {
-        Biking = 1,
-        Climbing = 2,
-        Running = 3,
-        Swimming = 4
+        Undefined = 0,
+        BikeActivity = 1,
+        ClimbActivity = 2,
+        RunActivity = 3,
+        SwimActivity = 4
     }
 }

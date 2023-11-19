@@ -32,10 +32,12 @@ public class User
     public void Register(string userName, string password)
     {
         var hash = SecurityProvider.HashPasword(password, out var salt);
-        var user = new User(_userRepository);
-        user.UserName = userName;
-        user.PasswordSalt = Convert.ToHexString(salt);
-        user.PasswordHash = hash;
+        var user = new User(_userRepository)
+        {
+            UserName = userName,
+            PasswordSalt = Convert.ToHexString(salt),
+            PasswordHash = hash
+        };
         _userRepository.AddUser(user);
     }
 
