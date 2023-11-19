@@ -3,7 +3,7 @@ using System.Text;
 
 namespace FitnessApp.Domain.Security
 {
-    internal static class SecurityProvider
+    public static class SecurityProvider
     {
         const int keySize = 64;
         const int iterations = 100;
