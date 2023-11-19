@@ -3,7 +3,7 @@ using FitnessApp.Domain.Contracts;
 using FitnessApp.Domain.Entities.Base;
 using FitnessApp.Domain.Security;
 
-namespace FitnessApp.Domain.Entities;
+namespace FitnessApp.Domain.Entitities;
 
 public class User
 {

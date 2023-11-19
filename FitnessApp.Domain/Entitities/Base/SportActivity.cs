@@ -1,4 +1,5 @@
 ﻿using FitnessApp.Domain.CustomTypes;
+using FitnessApp.Domain.Entitities;
 
 namespace FitnessApp.Domain.Entities.Base;
 
