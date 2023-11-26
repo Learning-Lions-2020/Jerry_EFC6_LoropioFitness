@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitnessApp.Data", "..\FitnessApp.Data\FitnessApp.Data.csproj", "{8C9BEAF7-EF18-4820-B61F-69E8B654F158}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitnessApp.Data", "FitnessApp.Data\FitnessApp.Data.csproj", "{8C9BEAF7-EF18-4820-B61F-69E8B654F158}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitnessApp.Domain", "..\FitnessApp.Domain\FitnessApp.Domain.csproj", "{2C5E324B-E606-427C-86BD-91240068C41B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitnessApp.Domain", "FitnessApp.Domain\FitnessApp.Domain.csproj", "{2C5E324B-E606-427C-86BD-91240068C41B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitnessApp.UI", "FitnessApp.UI.csproj", "{4C64B928-BF70-465B-826C-48678A13D861}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FitnessApp.UI", "FitnessApp.UI\FitnessApp.UI.csproj", "{4C64B928-BF70-465B-826C-48678A13D861}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
