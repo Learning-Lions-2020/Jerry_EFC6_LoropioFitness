@@ -14,13 +14,19 @@ public class UserRepository : IUserRepository
     public User GetUser(string userName)
     {
         // Task 11: Implement the method to load a user by his userName including his SportActivities
-        throw new NotImplementedException();
+
+        return _context.Users
+        .Include(u => u.SportActivities)
+        .SingleOrDefault(u => u.UserName == userName);
     }
 
     public User AddUser(User user)
     {
         // Task 12: Implement the method to add a user 
-        throw new NotImplementedException();
+
+        _context.Users.Add(user);
+        _context.SaveChanges();
+        return user;
     }
 
     public void SaveOrUpdate()
@@ -31,6 +37,9 @@ public class UserRepository : IUserRepository
     public User? GetUserById(int userId)
     {
         // Task 13: Implement the method to load a user by his is including his SportActivities
-        throw new NotImplementedException();
+
+        return _context.Users
+        .Include(u => u.SportActivities)
+        .SingleOrDefault(u => u.Id == userId);
     }
 }

@@ -12,5 +12,8 @@ public class SportActivity
     public Feeling Feeling { get; set; }
     public virtual string DistanceUnit => "";
     public User User { get; set; }
-    public ActivityType ActivityType { get; set; } 
+    public ActivityType ActivityType { get; set; }
+
+    // Add UserId property
+    public int UserId { get; set; }
 }

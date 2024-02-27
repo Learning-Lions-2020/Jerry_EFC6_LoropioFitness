@@ -5,4 +5,5 @@ namespace FitnessApp.Domain.Entitities;
 public class BikeActivity : SportActivity
 {
     public override string DistanceUnit => "Km";
+
 }
