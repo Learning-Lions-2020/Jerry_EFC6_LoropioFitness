@@ -16,4 +16,4 @@ public class SportActivity
 
     // Add UserId property
     public int UserId { get; set; }
-}
+} 
