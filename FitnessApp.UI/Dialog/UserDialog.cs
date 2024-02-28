@@ -59,15 +59,12 @@ public class UserDialog
         Console.WriteLine("Enter your password:");
         string passwordInput = Console.ReadLine();
 
-        // Register the user
-        user.Register(userNameInput, passwordInput);
-        Console.WriteLine("User registered successfully!");
-
         // Task 3: Uncomment the lines below and make the work. Use the already implemented Register method for the User
 
         if (!string.IsNullOrEmpty(userNameInput) && !string.IsNullOrEmpty(passwordInput))
         {
             user.Register(userNameInput, passwordInput);
+            Console.WriteLine("User registered successfully!");
         }
         else
         {
@@ -85,26 +82,13 @@ public class UserDialog
         Console.WriteLine("Enter your password:");
         string passwordInput = Console.ReadLine();
 
-        // Check credentials
-        bool credentialsAreValid = user.GetCredentialsAreValid(userNameInput, passwordInput);
-
-        if (credentialsAreValid)
-        {
-            Console.WriteLine($"Welcome {userNameInput}, you have logged on successfully !");
-            ShowActivityDialog();
-        }
-        else
-        {
-            Console.WriteLine("Invalid username or password. Please try again.");
-        }
-
         // uncomment the lines below and make the work
 
         if (!string.IsNullOrEmpty(userNameInput) && !string.IsNullOrEmpty(passwordInput))
         {
-             var _credentialsAreValid = user.GetCredentialsAreValid(userNameInput, passwordInput);
+             var credentialsAreValid = user.GetCredentialsAreValid(userNameInput, passwordInput);
 
-            if (_credentialsAreValid)
+            if (credentialsAreValid)
             {
                 Console.WriteLine($"Welcome {user.UserName}, you have logged on successfully !");
                 ShowActivityDialog();
