@@ -29,7 +29,6 @@ public class User
         // Task: implement the code to add an activity;
 
         SportActivities.Add(activity);
-        SaveOrUpdate(); // Save changes to the database
 
     }
 

@@ -23,7 +23,7 @@ public class FitnessAppContext : DbContext
         modelBuilder.Entity<User>()
             .HasMany(u => u.SportActivities)
             .WithOne(a => a.User)
-            .HasForeignKey(a => a.UserId);
+            .IsRequired();
     }
 
 }

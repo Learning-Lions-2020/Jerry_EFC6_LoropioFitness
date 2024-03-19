@@ -15,9 +15,16 @@ public class UserRepository : IUserRepository
     {
         // Task 11: Implement the method to load a user by his userName including his SportActivities
 
-        return _context.Users
+        var user = _context.Users
         .Include(u => u.SportActivities)
-        .SingleOrDefault(u => u.UserName == userName);
+        .FirstOrDefault(u => u.UserName == userName);
+
+        if (user != null)
+        {
+            return user;
+        }
+        throw new Exception($"User with the userName: {userName} not found!");
+
     }
 
     public User AddUser(User user)
@@ -38,8 +45,15 @@ public class UserRepository : IUserRepository
     {
         // Task 13: Implement the method to load a user by his is including his SportActivities
 
-        return _context.Users
+
+        var user = _context.Users
         .Include(u => u.SportActivities)
-        .SingleOrDefault(u => u.Id == userId);
+        .FirstOrDefault(u => u.Id == userId);
+        if (user != null)
+        {
+            return user;
+        }
+        return null;
+
     }
 }
