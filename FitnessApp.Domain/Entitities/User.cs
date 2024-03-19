@@ -29,8 +29,10 @@ public class User
         // Task: implement the code to add an activity;
 
         SportActivities.Add(activity);
-    } 
-    
+        SaveOrUpdate(); // Save changes to the database
+
+    }
+
     public void Register(string userName, string password)
     {
         var hash = SecurityProvider.HashPasword(password, out var salt);
