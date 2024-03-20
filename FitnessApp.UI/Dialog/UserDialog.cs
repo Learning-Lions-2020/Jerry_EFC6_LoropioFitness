@@ -110,6 +110,7 @@ public class UserDialog
         // Use the existing ActivityDialog class to enter the Sport Activity
 
         ActivityDialog activitydialog = new ActivityDialog();
+        activitydialog.SetUserId(user.Id);
         activitydialog.EnterActivity();
 
     }

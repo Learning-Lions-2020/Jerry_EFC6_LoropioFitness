@@ -49,6 +49,7 @@ public class UserRepository : IUserRepository
         var user = _context.Users
         .Include(u => u.SportActivities)
         .FirstOrDefault(u => u.Id == userId);
+
         if (user != null)
         {
             return user;
