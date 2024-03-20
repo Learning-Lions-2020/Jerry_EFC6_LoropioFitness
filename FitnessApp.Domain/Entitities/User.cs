@@ -56,12 +56,24 @@ public class User
         // Task: Use the Security Provider Class to verify if the credentials of the user are valid
         // if the credentials are valid set the Id and the UserName of this user
 
-        var user = _userRepository.GetUser(userName);
-        if (user != null)
+        try
         {
-            return SecurityProvider.VerifyPassword(password, user.PasswordHash, user.PasswordSalt);
+            var user = _userRepository.GetUser(userName);
+
+            if (SecurityProvider.VerifyPassword(password, user.PasswordHash, user.PasswordSalt))
+            {
+                UserName = userName;
+                Id = user.Id;
+                return true;
+            }
+            return false;
+
         }
-        return false;
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+        return false;   
     }
 
     public void SaveOrUpdate()
