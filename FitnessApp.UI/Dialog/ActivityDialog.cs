@@ -49,6 +49,12 @@ internal class ActivityDialog
             case ActivityType.BikeActivity:
                 AddBikeActivity();
                 break;
+            case ActivityType.ClimbActivity:
+                AddClimbActivity();
+                break;
+            case ActivityType.SwimActivity:
+                AddSwimActivity();
+                break;
         }
         // Task 7 : add the code to add a Bike Activity
 
@@ -181,10 +187,177 @@ internal class ActivityDialog
                 };
 
                 // Add the bike activity to the user's activities
-                User user = new User();
-                user.AddActivity(bikeActivity);
+                var user = new User().GetUser(_userId);
 
+                if(user != null)
+                {
+                    user.AddActivity(bikeActivity);
+                    user.SaveOrUpdate();    
+                }
                 Console.WriteLine("New bike activity created and saved.");
+
+            }
+            catch (ArgumentException ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.ResetColor();
+            }
+            catch (FormatException ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.ResetColor();
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.ResetColor();
+            }
+        }
+
+
+        void AddClimbActivity()
+        {
+            try
+            {
+                Console.WriteLine("Enter the total distance covered on the climb activity in M:");
+                string distanceInput = Console.ReadLine();
+                if (string.IsNullOrEmpty(distanceInput))
+                    throw new ArgumentException("Please enter a valid distance.");
+
+                if (!double.TryParse(distanceInput, out double distanceCovered) || distanceCovered <= 0)
+                    throw new ArgumentException("Distance must be a valid positive number.");
+
+                Console.WriteLine("Enter the total time spent on the climb activity in the format HH:MM:SS:");
+                string timeTakenInput = Console.ReadLine();
+                if (string.IsNullOrEmpty(timeTakenInput))
+                    throw new ArgumentException("Please enter the valid time in the defined format.");
+
+                if (!TimeSpan.TryParseExact(timeTakenInput, "hh\\:mm\\:ss", null, out TimeSpan timeTaken))
+                    throw new FormatException("Time format is invalid.");
+
+                Console.WriteLine("Enter the date of the climb activity in the format YYYY/MM/DD:");
+                string dateOfActivityInput = Console.ReadLine();
+                if (string.IsNullOrEmpty(dateOfActivityInput))
+                    throw new ArgumentException("Please enter a valid date.");
+
+                if (!DateTime.TryParseExact(dateOfActivityInput, "yyyy/MM/dd", null,
+                    System.Globalization.DateTimeStyles.None, out DateTime dateOfActivity))
+                    throw new FormatException("Date format is invalid.");
+
+                Console.WriteLine("How did you feel after the climb activity?");
+                Console.WriteLine("1. BAD");
+                Console.WriteLine("2. OK");
+                Console.WriteLine("3. GOOD");
+                Console.WriteLine("4. STRONG");
+                Console.WriteLine("5. VERY STRONG");
+                string feelingInput = Console.ReadLine();
+
+                if (!Enum.TryParse(feelingInput, out Feeling feeling) || !Enum.IsDefined(typeof(Feeling), feeling))
+                    throw new ArgumentException("Invalid feeling selected.");
+
+                // Create a new ClimbActivity object
+                ClimbActivity climbActivity = new ClimbActivity
+                {
+                    Distance = distanceCovered,
+                    TimeTaken = timeTaken,
+                    ActivityDate = dateOfActivity,
+                    Feeling = feeling
+                };
+
+                // Add the climb activity to the user's activities
+                var user = new User().GetUser(_userId);
+
+                if (user != null)
+                {
+                    user.AddActivity(climbActivity);
+                    user.SaveOrUpdate();
+                }
+                Console.WriteLine("New climb activity created and saved.");
+
+            }
+            catch (ArgumentException ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.ResetColor();
+            }
+            catch (FormatException ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.ResetColor();
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine($"Error: {ex.Message}");
+                Console.ResetColor();
+            }
+        }
+
+
+        void AddSwimActivity()
+        {
+            try
+            {
+                Console.WriteLine("Enter the total distance covered on the swim activity in M:");
+                string distanceInput = Console.ReadLine();
+                if (string.IsNullOrEmpty(distanceInput))
+                    throw new ArgumentException("Please enter a valid distance.");
+
+                if (!double.TryParse(distanceInput, out double distanceCovered) || distanceCovered <= 0)
+                    throw new ArgumentException("Distance must be a valid positive number.");
+
+                Console.WriteLine("Enter the total time spent on the swim activity in the format HH:MM:SS:");
+                string timeTakenInput = Console.ReadLine();
+                if (string.IsNullOrEmpty(timeTakenInput))
+                    throw new ArgumentException("Please enter the valid time in the defined format.");
+
+                if (!TimeSpan.TryParseExact(timeTakenInput, "hh\\:mm\\:ss", null, out TimeSpan timeTaken))
+                    throw new FormatException("Time format is invalid.");
+
+                Console.WriteLine("Enter the date of the swim activity in the format YYYY/MM/DD:");
+                string dateOfActivityInput = Console.ReadLine();
+                if (string.IsNullOrEmpty(dateOfActivityInput))
+                    throw new ArgumentException("Please enter a valid date.");
+
+                if (!DateTime.TryParseExact(dateOfActivityInput, "yyyy/MM/dd", null,
+                    System.Globalization.DateTimeStyles.None, out DateTime dateOfActivity))
+                    throw new FormatException("Date format is invalid.");
+
+                Console.WriteLine("How did you feel after the swim activity?");
+                Console.WriteLine("1. BAD");
+                Console.WriteLine("2. OK");
+                Console.WriteLine("3. GOOD");
+                Console.WriteLine("4. STRONG");
+                Console.WriteLine("5. VERY STRONG");
+                string feelingInput = Console.ReadLine();
+
+                if (!Enum.TryParse(feelingInput, out Feeling feeling) || !Enum.IsDefined(typeof(Feeling), feeling))
+                    throw new ArgumentException("Invalid feeling selected.");
+
+                // Create a new SwimActivity object
+                SwimActivity swimActivity = new SwimActivity
+                {
+                    Distance = distanceCovered,
+                    TimeTaken = timeTaken,
+                    ActivityDate = dateOfActivity,
+                    Feeling = feeling
+                };
+
+                // Add the swim activity to the user's activities
+                var user = new User().GetUser(_userId);
+
+                if (user != null)
+                {
+                    user.AddActivity(swimActivity);
+                    user.SaveOrUpdate();
+                }
+                Console.WriteLine("New swim activity created and saved.");
+
             }
             catch (ArgumentException ex)
             {
