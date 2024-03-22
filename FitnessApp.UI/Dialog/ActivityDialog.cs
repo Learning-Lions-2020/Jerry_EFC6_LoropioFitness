@@ -6,6 +6,9 @@ namespace FitnessApp.UI.Dialog;
 internal class ActivityDialog
 {
     private int _userId;
+
+    private User _currentUser;
+
     public void SetUserId(int userId)
     {
         this._userId = userId;
@@ -380,4 +383,33 @@ internal class ActivityDialog
         }
 
     }
+
+    public void ViewAllActivities(User currentUser)
+    {
+        _currentUser = currentUser;
+
+        Console.WriteLine($"All Activities for User: {_currentUser.UserName}");
+
+        // Retrieve all activities for the current user
+        var userActivities = _currentUser.SportActivities;
+
+        if (userActivities.Any())
+        {
+            foreach (var activity in userActivities)
+            {
+                Console.WriteLine($"Activity Type: {activity.ActivityType}");
+                Console.WriteLine($"Date: {activity.ActivityDate}");
+                Console.WriteLine($"Distance Covered: {activity.Distance} {activity.DistanceUnit}");
+                Console.WriteLine($"Time Taken: {activity.TimeTaken}");
+                Console.WriteLine($"Feeling: {activity.Feeling}");
+                Console.WriteLine();
+            }
+        }
+        else
+        {
+            Console.WriteLine("No activities found for the current user.");
+        }
+    }
+
+
 }
