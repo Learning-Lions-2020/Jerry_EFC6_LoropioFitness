@@ -14,7 +14,7 @@ public class FitnessAppContext : DbContext
     {
         optionsBuilder
             .UseSqlServer("Server = localhost\\SQLEXPRESS; Database=FitnessDb; Trusted_Connection = True;TrustServerCertificate=True")
-            .LogTo(Console.WriteLine, LogLevel.Information)
+          .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableSensitiveDataLogging();
         ;
     }
