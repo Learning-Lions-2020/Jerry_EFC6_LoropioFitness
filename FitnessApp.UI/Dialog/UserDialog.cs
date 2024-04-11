@@ -11,6 +11,8 @@ public class UserDialog
 {
     private IUserRepository userRepository;
     private User user;
+    private User _currentUser;
+    private Guid activityId;
 
     public UserDialog()
     {
@@ -28,9 +30,11 @@ public class UserDialog
         Console.WriteLine("2. Log in");
         Console.WriteLine("3. List activities by type");
         Console.WriteLine("4. List activities by date");
-        Console.WriteLine("5. Change Username or Password");
-        Console.WriteLine("6. Update Activity Details");
-        Console.WriteLine("7. Quit");
+        Console.WriteLine("5. Change username or password");
+        Console.WriteLine("6. Update activity details");
+        Console.WriteLine("7. Delete activity by id");
+        Console.WriteLine("8. Remove all activities");
+        Console.WriteLine("9. Quit");
 
         // Get user input
         string input = Console.ReadLine();
@@ -57,6 +61,12 @@ public class UserDialog
                 UpdateActivityDetails();
                 break;
             case "7":
+                DeleteActivityById();
+                break;
+            case "8":
+                RemoveAllActivities();
+                break;
+            case "9":
                 Environment.Exit(0);
                 break;
             default:
@@ -285,7 +295,7 @@ public class UserDialog
 
         if (int.TryParse(activityIdInput, out int activityId))
         {
-            var activityToUpdate = user.SportActivities.FirstOrDefault(a => a.Id == activityId);
+            var activityToUpdate = _currentUser.SportActivities.FirstOrDefault(a => a.Id == new Guid(activityId.ToString()));
 
             if (activityToUpdate != null)
             {
@@ -306,7 +316,7 @@ public class UserDialog
         }
     }
 
-    private void UpdateActivityFields(SportActivity activity)
+    public void UpdateActivityFields(SportActivity activity)
     {
         Console.WriteLine("Enter the new distance covered on the activity in KM:");
         string distanceInput = Console.ReadLine();
@@ -357,5 +367,42 @@ public class UserDialog
             Console.WriteLine("Invalid feeling input. Please select a valid feeling option.");
         }
     }
+
+
+
+
+    public void DeleteActivityById()
+    {
+
+        if (_currentUser != null)
+        {
+            var activityToDelete = _currentUser.SportActivities.FirstOrDefault(a => a.Id == activityId);
+
+            _currentUser.SportActivities.Remove(activityToDelete);
+            _currentUser.SaveOrUpdate();
+            Console.WriteLine("Activity deleted successfully.");
+        }
+        else
+        {
+            Console.WriteLine("No activity found with the provided ID.");
+        }
+    }
+    public void RemoveAllActivities()
+    {
+        Console.WriteLine("Are you sure you want to delete all recorded activities? (Y/N)");
+        string confirmation = Console.ReadLine();
+
+        if (confirmation?.ToUpper() == "Y")
+        {
+            _currentUser.SportActivities.Clear();
+            _currentUser.SaveOrUpdate();
+            Console.WriteLine("All activities deleted successfully.");
+        }
+        else
+        {
+            Console.WriteLine("Operation cancelled. No activities were deleted.");
+        }
+    }
+
 
 }
