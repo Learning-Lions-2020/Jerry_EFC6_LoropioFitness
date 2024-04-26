@@ -30,9 +30,12 @@ namespace FitnessApp.Data.Repository
             _dbContext.SportEvents.Add(sportEvent);
         }
 
-        public void Save(SportEvent sportEvent)
+        public SportEvent Save(SportEvent sportEvent)
         {
+            _dbContext.SportEvents.Add(sportEvent);
             _dbContext.SaveChanges();
+
+            return sportEvent;
         }
     }
 }

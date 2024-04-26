@@ -9,7 +9,7 @@ namespace FitnessApp.Domain.Contracts
         SportEvent GetSportEventById(int eventId);
         IEnumerable<SportEvent> GetAllSportEvents();
         void AddSportEvent(SportEvent sportEvent);
-        void Save(SportEvent sportEvent);
+        SportEvent Save(SportEvent sportEvent);
     }
 }
 

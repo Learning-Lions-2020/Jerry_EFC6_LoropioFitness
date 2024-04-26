@@ -19,12 +19,7 @@ internal class ActivityDialog
         this._userId = userId;
     }
 
-    private readonly EventDialog _eventDialog;
-
-    public ActivityDialog(EventDialog eventDialog)
-    {
-        _eventDialog = eventDialog;
-    }
+    EventDialog _eventDialog = new EventDialog();
 
     public void ActivityMenu()
     {

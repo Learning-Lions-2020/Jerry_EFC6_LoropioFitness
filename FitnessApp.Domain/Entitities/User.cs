@@ -16,28 +16,9 @@ public class User
     
     public ICollection<SportActivity> SportActivities { get; set; } = new List<SportActivity>();
 
+    public ICollection<SportEvent> SportEvent { get; set; } = new List<SportEvent>();
+
     private static IUserRepository _userRepository;
-
-
-    public List<SportEvent> RegisteredEvents { get; set; } // Assuming RegisteredEvents is a list of SportEvent
-
-    public void RegisterForEvent(SportEvent sportEvent)
-    {
-        // Check if the user is already registered for the event
-        if (RegisteredEvents == null)
-        {
-            RegisteredEvents = new List<SportEvent>();
-        }
-        else if (RegisteredEvents.Contains(sportEvent))
-        {
-            Console.WriteLine("You are already registered for this event.");
-            return;
-        }
-
-        // Add the event to the user's list of registered events
-        RegisteredEvents.Add(sportEvent);
-        Console.WriteLine("Registration successful!");
-    }
 
 
     public User(){}

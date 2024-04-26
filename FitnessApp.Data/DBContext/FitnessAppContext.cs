@@ -28,13 +28,14 @@ public class FitnessAppContext : DbContext
         modelBuilder.Entity<User>()
             .HasMany(u => u.SportActivities)
             .WithOne(a => a.User)
+            .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
 
-        modelBuilder.Entity<User>()
-        .HasMany(u => u.RegisteredEvents)  // Assuming you have a navigation property for events created by the user
+        /*modelBuilder.Entity<User>()
+        .HasMany(u => u.RegisteredEvents)
         .WithOne(e => e.User)
         .HasForeignKey(e => e.UserId)
-        .IsRequired();
+        .IsRequired();*/
 
         modelBuilder.Entity<SportEvent>()
         .HasKey(se => se.Id);

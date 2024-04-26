@@ -2,6 +2,7 @@
 using System.Linq;
 using FitnessApp.Domain.Contracts;
 using FitnessApp.Domain.Entities;
+using FitnessApp.Domain.Entitities;
 using FitnessApp.Domain.Entitities.Base;
 
 namespace FitnessApp.UI.Dialog
@@ -9,14 +10,10 @@ namespace FitnessApp.UI.Dialog
     public class EventDialog
     {
         private readonly ISportEventRepository _sportEventRepository;
-        private readonly IUserRepository _userRepository;
-        private readonly int _userId;
-
-        public EventDialog(ISportEventRepository sportEventRepository, IUserRepository userRepository, int userId)
+        private int _userId;
+        public void SetUserId(int userId)
         {
-            _sportEventRepository = sportEventRepository;
-            _userRepository = userRepository;
-            _userId = userId;
+            this._userId = userId;
         }
 
         public void AddSportsEvent()
@@ -25,6 +22,8 @@ namespace FitnessApp.UI.Dialog
 
             try
             {
+                var sportEvent = new SportEvent(_sportEventRepository);
+
                 Console.WriteLine("Enter the name of the event:");
                 string name = Console.ReadLine();
 
@@ -45,19 +44,15 @@ namespace FitnessApp.UI.Dialog
                 Console.WriteLine("Enter the country where the event will take place:");
                 string country = Console.ReadLine();
 
-                // Create a new SportEvent object
-                SportEvent sportEvent = new SportEvent
-                {
-                    Name = name,
-                    Description = description,
-                    Date = date,
-                    City = city,
-                    Country = country
-                };
 
-                // Save the event using the repository
-                _sportEventRepository.AddSportEvent(sportEvent);
-                _sportEventRepository.Save(sportEvent); 
+                sportEvent.Name = name;
+                sportEvent.Description = description;
+                sportEvent.Date = date;
+                sportEvent.City = city;
+                sportEvent.Country = country;
+
+                sportEvent.SaveEvent();
+               
 
                 Console.WriteLine("Sports event added successfully!");
             }
@@ -95,23 +90,18 @@ namespace FitnessApp.UI.Dialog
                 return;
             }
 
-            var user = _userRepository.GetUserById(_userId);
+            var user = new User().GetUser(_userId);
+
             if (user == null)
             {
                 Console.WriteLine("User not found. Please log in again.");
                 return;
             }
-
-            // Check if the user is already registered for the event
-            if (user.RegisteredEvents.Any(e => e.Id == eventId))
+            else
             {
-                Console.WriteLine("You are already registered for this event.");
-                return;
+                user.SportEvent.Add(sportEvent);
+                user.SaveOrUpdate();
             }
-
-            // Register the user for the event
-            user.RegisterForEvent(sportEvent);
-            _userRepository.SaveOrUpdate();
 
             Console.WriteLine("Registration successful!");
         }

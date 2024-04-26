@@ -129,9 +129,7 @@ public class UserDialog
     {
         // Task 5 Add the Dialog to Enter a new Sport Activity
         // Use the existing ActivityDialog class to enter the Sport Activity
-
-        EventDialog eventDialog = new EventDialog(sportEventRepository, userRepository, userId);
-        ActivityDialog activitydialog = new ActivityDialog(eventDialog);
+        ActivityDialog activitydialog = new ActivityDialog();
         activitydialog.SetUserId(user.Id);
         activitydialog.ActivityMenu();
 
