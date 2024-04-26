@@ -19,6 +19,13 @@ internal class ActivityDialog
         this._userId = userId;
     }
 
+    private readonly EventDialog _eventDialog;
+
+    public ActivityDialog(EventDialog eventDialog)
+    {
+        _eventDialog = eventDialog;
+    }
+
     public void ActivityMenu()
     {
         // Display options to create a new user account, log in, or quit
@@ -30,6 +37,9 @@ internal class ActivityDialog
         Console.WriteLine("5. Update activity details");
         Console.WriteLine("6. Delete activity by id");
         Console.WriteLine("7. Remove all activities");
+        Console.WriteLine("01. Add a new sports event");
+        Console.WriteLine("02. List sports events");
+        Console.WriteLine("03. Register for a sports event");
         Console.WriteLine("8. Quit");
 
         // Get user input
@@ -58,6 +68,15 @@ internal class ActivityDialog
                 break;
             case "7":
                 RemoveAllActivities();
+                break;
+            case "01":
+                _eventDialog.AddSportsEvent();
+                break;
+            case "02":
+                _eventDialog.ListSportsEvents();
+                break;
+            case "03":
+                _eventDialog.RegisterForSportsEvent();
                 break;
             case "8":
                 Environment.Exit(0);

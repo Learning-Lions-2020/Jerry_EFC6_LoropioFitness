@@ -1,4 +1,5 @@
-﻿using FitnessApp.Data.Repository;
+﻿using FitnessApp.Data.DBContext;
+using FitnessApp.Data.Repository;
 using FitnessApp.Domain.Contracts;
 using FitnessApp.Domain.CustomTypes;
 using FitnessApp.Domain.Entities.Base;
@@ -13,9 +14,22 @@ public class UserDialog
     private User user;
     private User _currentUser;
     private Guid activityId;
+    private readonly FitnessAppContext dbContext;
+    private readonly EventDialog _eventDialog;
+    private readonly ISportEventRepository sportEventRepository;
+    private int userId;
+
+
+    public UserDialog(EventDialog eventDialog)
+    {
+        dbContext = new FitnessAppContext();
+
+        _eventDialog = eventDialog;
+    }
 
     public UserDialog()
     {
+
         userRepository = new UserRepository();
         // in the constructor of the UserDialog we create a UserRepository and a User
         // the repository is passed to the User in his constructor so that a User Domain Object has access to his repository
@@ -116,7 +130,8 @@ public class UserDialog
         // Task 5 Add the Dialog to Enter a new Sport Activity
         // Use the existing ActivityDialog class to enter the Sport Activity
 
-        ActivityDialog activitydialog = new ActivityDialog();
+        EventDialog eventDialog = new EventDialog(sportEventRepository, userRepository, userId);
+        ActivityDialog activitydialog = new ActivityDialog(eventDialog);
         activitydialog.SetUserId(user.Id);
         activitydialog.ActivityMenu();
 

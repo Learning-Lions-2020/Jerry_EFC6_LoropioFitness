@@ -1,5 +1,6 @@
 ﻿using FitnessApp.Domain.Entities.Base;
 using FitnessApp.Domain.Entitities;
+using FitnessApp.Domain.Entitities.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -9,6 +10,7 @@ public class FitnessAppContext : DbContext
 {
     public DbSet<User> Users { get; set; }
     public DbSet<SportActivity> SportActivities { get; set; }
+    public DbSet<SportEvent> SportEvents { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -27,6 +29,15 @@ public class FitnessAppContext : DbContext
             .HasMany(u => u.SportActivities)
             .WithOne(a => a.User)
             .IsRequired();
+
+        modelBuilder.Entity<User>()
+        .HasMany(u => u.RegisteredEvents)  // Assuming you have a navigation property for events created by the user
+        .WithOne(e => e.User)
+        .HasForeignKey(e => e.UserId)
+        .IsRequired();
+
+        modelBuilder.Entity<SportEvent>()
+        .HasKey(se => se.Id);
     }
 
 }

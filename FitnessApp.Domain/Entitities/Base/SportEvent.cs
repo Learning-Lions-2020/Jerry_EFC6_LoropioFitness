@@ -10,5 +10,7 @@ namespace FitnessApp.Domain.Entitities.Base
         public DateTime Date { get; set; }
         public string City { get; set; }
         public string Country { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }
