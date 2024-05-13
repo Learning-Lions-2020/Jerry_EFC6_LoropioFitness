@@ -21,6 +21,7 @@ internal class ActivityDialog
 
     EventDialog _eventDialog = new EventDialog();
 
+
     public void ActivityMenu()
     {
         // Display options to create a new user account, log in, or quit
@@ -64,16 +65,22 @@ internal class ActivityDialog
             case "7":
                 RemoveAllActivities();
                 break;
-            case "01":
+            case "8":
                 _eventDialog.AddSportsEvent();
                 break;
-            case "02":
+            case "9":
                 _eventDialog.ListSportsEvents();
                 break;
-            case "03":
+            case "10":
                 _eventDialog.RegisterForSportsEvent();
                 break;
-            case "8":
+            case "11":
+                _eventDialog.ListMySportsEvents();
+                break;
+            case "12":
+                _eventDialog.UnregisterFromSportsEvent();
+                break;
+            case "13":
                 Environment.Exit(0);
                 break;
             default:

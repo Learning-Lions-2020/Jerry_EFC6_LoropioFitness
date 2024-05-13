@@ -21,8 +21,10 @@ public class User
     private static IUserRepository _userRepository;
 
 
-    public User(){}
-    
+    public User(){
+        RegisteredEvents = new List<SportEvent>();
+    }
+
     public User(IUserRepository userRepository)
     {
         _userRepository = userRepository;
@@ -84,4 +86,28 @@ public class User
     {
         _userRepository.SaveOrUpdate();
     }
+
+    // Property to store registered events for the user
+    public List<SportEvent> RegisteredEvents { get; private set; }
+
+  /*  public User()
+    {
+        // Initialize the list of registered events
+        RegisteredEvents = new List<SportEvent>();
+    }*/
+
+    // Method to register the user for a sport event
+    public void RegisterForEvent(SportEvent sportEvent)
+    {
+        // Add the sport event to the list of registered events
+        RegisteredEvents.Add(sportEvent);
+    }
+
+    // Method to unregister the user from a sport event
+    public void UnregisterFromEvent(SportEvent sportEvent)
+    {
+        // Remove the sport event from the list of registered events
+        RegisteredEvents.Remove(sportEvent);
+    }
+
 }
