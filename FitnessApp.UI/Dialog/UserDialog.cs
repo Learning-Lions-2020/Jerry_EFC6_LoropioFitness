@@ -86,6 +86,7 @@ public class UserDialog
         {
             user.Register(userNameInput, passwordInput);
             Console.WriteLine("User registered successfully!");
+            StartLogonDialog();
         }
         else
         {

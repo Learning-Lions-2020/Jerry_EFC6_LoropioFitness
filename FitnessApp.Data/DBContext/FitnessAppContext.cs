@@ -15,9 +15,9 @@ public class FitnessAppContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
-            .UseSqlServer("Server = localhost\\SQLEXPRESS; Database=FitnessDb; Trusted_Connection = True;TrustServerCertificate=True")
-          .LogTo(Console.WriteLine, LogLevel.Information)
-            .EnableSensitiveDataLogging();
+            .UseSqlServer("Server = localhost\\SQLEXPRESS;Database=FitnessDbNew;Trusted_Connection = True;TrustServerCertificate=True")
+          /*.LogTo(Console.WriteLine, LogLevel.Information)
+            .EnableSensitiveDataLogging();*/
         ;
     }
 
@@ -30,15 +30,6 @@ public class FitnessAppContext : DbContext
             .WithOne(a => a.User)
             .OnDelete(DeleteBehavior.Cascade)
             .IsRequired();
-
-        /*modelBuilder.Entity<User>()
-        .HasMany(u => u.RegisteredEvents)
-        .WithOne(e => e.User)
-        .HasForeignKey(e => e.UserId)
-        .IsRequired();*/
-
-        modelBuilder.Entity<SportEvent>()
-        .HasKey(se => se.Id);
     }
 
 }

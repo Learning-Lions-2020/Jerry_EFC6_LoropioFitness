@@ -1,5 +1,5 @@
-﻿using FitnessApp.Data.DBContext;
-using FitnessApp.UI.Dialog;
-
+﻿using FitnessApp.UI.Dialog;
+using System;
 
 new UserDialog().StartLogonDialog();
+
