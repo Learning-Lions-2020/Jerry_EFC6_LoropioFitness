@@ -21,9 +21,7 @@ public class User
     private static IUserRepository _userRepository;
 
 
-    public User(){
-        RegisteredEvents = new List<SportEvent>();
-    }
+    public User(){ }
 
     public User(IUserRepository userRepository)
     {
@@ -57,7 +55,7 @@ public class User
         return _userRepository.GetUserById(userId);
     }
 
-    public bool GetCredentialsAreValid(string userName, string password)
+    public User? GetCredentialsAreValid(string userName, string password)
     {
         // Task: Use the Security Provider Class to verify if the credentials of the user are valid
         // if the credentials are valid set the Id and the UserName of this user
@@ -70,16 +68,16 @@ public class User
             {
                 UserName = userName;
                 Id = user.Id;
-                return true;
+                return user;
             }
-            return false;
+            return null;
 
         }
         catch (Exception e)
         {
             Console.WriteLine(e);
         }
-        return false;   
+        return null;   
     }
 
     public void SaveOrUpdate()
@@ -87,27 +85,9 @@ public class User
         _userRepository.SaveOrUpdate();
     }
 
-    // Property to store registered events for the user
-    public List<SportEvent> RegisteredEvents { get; private set; }
-
-  /*  public User()
+    public void RemoveAllActivities(int userId)
     {
-        // Initialize the list of registered events
-        RegisteredEvents = new List<SportEvent>();
-    }*/
-
-    // Method to register the user for a sport event
-    public void RegisterForEvent(SportEvent sportEvent)
-    {
-        // Add the sport event to the list of registered events
-        RegisteredEvents.Add(sportEvent);
-    }
-
-    // Method to unregister the user from a sport event
-    public void UnregisterFromEvent(SportEvent sportEvent)
-    {
-        // Remove the sport event from the list of registered events
-        RegisteredEvents.Remove(sportEvent);
+        _userRepository.RemoveAllActivities(userId);
     }
 
 }

@@ -8,4 +8,5 @@ public interface IUserRepository
     public User AddUser(User user);
     public void SaveOrUpdate();
     public User? GetUserById(int userId);
+    void RemoveAllActivities(int userId);
 }

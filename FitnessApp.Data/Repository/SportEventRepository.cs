@@ -2,13 +2,14 @@
 using FitnessApp.Data.DBContext;
 using FitnessApp.Domain.Contracts;
 using FitnessApp.Domain.Entities;
+using FitnessApp.Domain.Entitities;
 using FitnessApp.Domain.Entitities.Base;
 
 namespace FitnessApp.Data.Repository
 {
     public class SportEventRepository : ISportEventRepository
     {
-        private readonly FitnessAppContext _dbContext;
+        private FitnessAppContext _dbContext;
 
         public SportEventRepository(FitnessAppContext dbContext)
         {
@@ -20,14 +21,14 @@ namespace FitnessApp.Data.Repository
             return _dbContext.SportEvents.Find(eventId);
         }
 
-        public IEnumerable<SportEvent> GetAllSportEvents()
+        public List<SportEvent> GetAllSportEvents()
         {
-            return _dbContext.SportEvents;
+            return _dbContext.SportEvents.ToList();
         }
 
-        public void AddSportEvent(SportEvent sportEvent)
+        public List<SportEvent> GetMySportEvents(User user)
         {
-            _dbContext.SportEvents.Add(sportEvent);
+            return _dbContext.SportEvents.Where(a => a.Users.Contains(user)).ToList();
         }
 
         public SportEvent Save(SportEvent sportEvent)

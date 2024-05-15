@@ -8,29 +8,63 @@ using FitnessApp.Domain.Entitities.Base;
 
 namespace FitnessApp.UI.Dialog
 {
-    public class EventDialog
+    public class EventDialog : BaseDialog
     {
-        private readonly ISportEventRepository _sportEventRepository;
-        private readonly IUserRepository _userRepository;
-        private readonly int _userId;
+        private ISportEventRepository _sportEventRepository;
 
-        public EventDialog(ISportEventRepository sportEventRepository, IUserRepository userRepository, int userId)
+       public EventDialog(User user) : base(user) { }
+        public void ManageSportEvents()
         {
-            _sportEventRepository = sportEventRepository;
-            _userRepository = userRepository; // Initialize the _userRepository field
-            _userId = userId;
+            do
+            {
+                // Sport events management logic
+                Console.WriteLine("Sport events management logic...");
+                Console.WriteLine("1. Add a new sports event");
+                Console.WriteLine("2. List All sports events");
+                Console.WriteLine("3. Register for a sports event");
+                Console.WriteLine("4. List My sports events");
+                Console.WriteLine("5. Unregister from a sport events");
+                Console.WriteLine("6. Back");
+                Console.WriteLine("7. Log out");
+
+                var authenticationDialog = new AuthenticationDialog(ServiceProvider);
+
+                // Get user input
+                string input = Console.ReadLine();
+
+                // Process user input
+                switch (input)
+                {
+                    case "1":
+                        AddSportsEvent();
+                        break;
+                    case "2":
+                        GetSportsEvents();
+                        break;
+                    case "3":
+                        RegisterForSportsEvent();
+                        break;
+                    case "4":
+                        GetMySportsEvents();
+                        break;
+                    case "5":
+                        UnregisterFromSportsEvent();
+                        break;
+                    case "6":
+                        authenticationDialog.Menu();
+                        break;
+                    case "7":
+                        authenticationDialog.Logout();
+                        break;
+                    default:
+                        Console.WriteLine("Invalid option. Please try again.");
+                        ManageSportEvents();
+                        break;
+                }
+            } while (true);
         }
 
-        public EventDialog()
-        {
-        }
-
-        /*public void SetUserId(int userId)
-{
-   this._userId = userId;
-}*/
-
-        public void AddSportsEvent()
+    public void AddSportsEvent()
         {
             Console.WriteLine("Adding a new sports event:");
 
@@ -87,8 +121,9 @@ namespace FitnessApp.UI.Dialog
 
         public void RegisterForSportsEvent()
         {
+
             Console.WriteLine("Available Sports Events:");
-            ListSportsEvents(false); // Display available events without prompting for return to main menu
+            GetSportsEvents(false); 
 
             Console.WriteLine("Enter the ID of the event you wish to register for:");
             if (!int.TryParse(Console.ReadLine(), out int eventId))
@@ -103,24 +138,37 @@ namespace FitnessApp.UI.Dialog
                 Console.WriteLine("Event not found. Please enter a valid event ID.");
                 return;
             }
-
-            var user = new User().GetUser(_userId);
-
-            if (user == null)
-            {
-                Console.WriteLine("User not found. Please log in again.");
-                return;
-            }
             else
             {
-                user.SportEvent.Add(sportEvent);
-                user.SaveOrUpdate();
+                bool isRegistered = false;
+                foreach(var registeredEvent in LoggedUser.SportEvent)
+                {
+                    if(registeredEvent.Id == sportEvent.Id)
+                    {
+                        isRegistered = true;
+                        break;
+                    }
+                    if (isRegistered)
+                    {
+                        Console.WriteLine("You are already registered for this event");
+                    }
+                    else
+                    {
+                        LoggedUser.SportEvent.Add(registeredEvent);
+                        LoggedUser.SaveOrUpdate();
+                        Console.WriteLine("You successfully register for the selected event");
+                    }
+                }
+                Console.WriteLine("Press any key to return to the main menu...");
+                Console.ReadKey();
             }
+
+            
 
             Console.WriteLine("Registration successful!");
         }
 
-        public void ListSportsEvents(bool returnToMain = true)
+        public void GetSportsEvents(bool returnToMain = true)
         {
             try
             {
@@ -161,31 +209,30 @@ namespace FitnessApp.UI.Dialog
         }
 
 
-        public void ListMySportsEvents(bool returnToMain = true)
+        public void GetMySportsEvents(bool returnToMain = true)
         {
             try
             {
-                var user = _userRepository.GetUserById(_userId);
-                if (user == null)
-                {
-                    Console.WriteLine("User not found.");
-                    return;
-                }
 
-                Console.WriteLine($"Registered Sports Events for User ID {_userId}:");
 
-                var registeredEvents = user.RegisteredEvents;
-                if (registeredEvents.Any())
+                if (LoggedUser != null)
                 {
-                    foreach (var sportEvent in registeredEvents)
+                    var sportEvents = _sportEventRepository.GetMySportEvents(LoggedUser);
+
+                    if(sportEvents != null)
                     {
-                        Console.WriteLine($"ID: {sportEvent.Id}");
-                        Console.WriteLine($"Name: {sportEvent.Name}");
-                        Console.WriteLine($"Description: {sportEvent.Description}");
-                        Console.WriteLine($"Date: {sportEvent.Date:yyyy/MM/dd}");
-                        Console.WriteLine($"City: {sportEvent.City}");
-                        Console.WriteLine($"Country: {sportEvent.Country}");
-                        Console.WriteLine();
+                        Console.WriteLine("List of my sportevents ");
+
+                        foreach (var sportEvent in sportEvents)
+                        {
+                            Console.WriteLine($"ID: {sportEvent.Id}");
+                            Console.WriteLine($"Name: {sportEvent.Name}");
+                            Console.WriteLine($"Description: {sportEvent.Description}");
+                            Console.WriteLine($"Date: {sportEvent.Date:yyyy/MM/dd}");
+                            Console.WriteLine($"City: {sportEvent.City}");
+                            Console.WriteLine($"Country: {sportEvent.Country}");
+                            Console.WriteLine();
+                        }
                     }
                 }
                 else
@@ -211,46 +258,57 @@ namespace FitnessApp.UI.Dialog
         {
             try
             {
-                ListMySportsEvents(false); // Display the user's registered events
+                GetMySportsEvents(false); // Display the user's registered events
 
-                var user = _userRepository.GetUserById(_userId);
-                if (user == null)
-                {
-                    Console.WriteLine("User not found.");
-                    return;
-                }
 
-                var registeredEvents = user.RegisteredEvents;
-                if (!registeredEvents.Any())
+                if (LoggedUser.SportEvent.Count == 0)
                 {
                     Console.WriteLine("You are not registered for any events.");
+                    Console.WriteLine("\nPress any key to return to the main menu...");
+                    Console.ReadLine();
                     return;
                 }
 
-                Console.WriteLine("Enter the ID of the event you wish to unregister from:");
+                Console.WriteLine("Enter the Event ID from which you wish to unregister:");
+
                 if (!int.TryParse(Console.ReadLine(), out int eventId))
                 {
-                    Console.WriteLine("Invalid event ID. Please enter a valid integer.");
+                    Console.WriteLine("Invalid input. Please select a valid Event ID.");
+                    Console.ReadLine();
                     return;
                 }
 
                 var sportEvent = _sportEventRepository.GetSportEventById(eventId);
+
                 if (sportEvent == null)
                 {
-                    Console.WriteLine("Event not found. Please enter a valid event ID.");
+                    Console.WriteLine("Event not found.");
+                    Console.WriteLine("\nPress any key to return to the main menu...");
+                    Console.ReadLine();
                     return;
                 }
 
-                if (registeredEvents.Contains(sportEvent))
+                bool isRegistered = false;
+                foreach (var registeredEvent in LoggedUser.SportEvent)
                 {
-                    user.UnregisterFromEvent(sportEvent);
-                    _userRepository.SaveOrUpdate();
-                    Console.WriteLine("You have been successfully unregistered from the event.");
+                    if (registeredEvent.Id == sportEvent.Id)
+                    {
+                        isRegistered = true;
+                        LoggedUser.SportEvent.Remove(registeredEvent);
+                        LoggedUser.SaveOrUpdate();
+
+                        Console.WriteLine($"Unregistered successfully from {sportEvent.Name}.");
+                        break;
+                    }
                 }
-                else
+
+                if (!isRegistered)
                 {
                     Console.WriteLine("You are not registered for this event.");
                 }
+
+                Console.WriteLine("\nPress any key to return to the main menu...");
+                Console.ReadLine();
             }
             catch (Exception ex)
             {

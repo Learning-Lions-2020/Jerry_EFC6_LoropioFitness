@@ -4,6 +4,7 @@ using FitnessApp.Domain.Contracts;
 using FitnessApp.Domain.Entities;
 using FitnessApp.Domain.Entitities;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace FitnessApp.Data.Repository;
 
@@ -56,5 +57,16 @@ public class UserRepository : IUserRepository
         }
         return null;
 
+    }
+
+    public void RemoveAllActivities(int userId)
+    {
+        var user = GetUserById(userId);
+
+        if(user != null)
+        {
+            user.SportActivities.Clear();
+            SaveOrUpdate();
+        }  
     }
 }
