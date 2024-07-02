@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using FitnessApp.Domain.Contracts;
+using FitnessApp.Domain.Entities;
 using FitnessApp.Domain.Entities.Base;
 using FitnessApp.Domain.Entitities.Base;
 using FitnessApp.Domain.Security;
@@ -15,8 +16,10 @@ public class User
     public string PasswordSalt { get; set; } = string.Empty;
     
     public ICollection<SportActivity> SportActivities { get; set; } = new List<SportActivity>();
-
+    public ICollection<SportEvent> RegisteredEvents { get; set; } = new List<SportEvent>();
     public ICollection<SportEvent> SportEvent { get; set; } = new List<SportEvent>();
+    public ICollection<UserSportEvent> UserSportEvents { get; set; }
+    public string Username { get; set; }
 
     private static IUserRepository _userRepository;
 

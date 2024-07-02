@@ -11,6 +11,7 @@ namespace FitnessApp.Domain.Contracts
         public List<SportEvent> GetAllSportEvents();
         public List<SportEvent> GetMySportEvents(User user);
         public SportEvent Save(SportEvent sportEvent);
+
     }
 }
 

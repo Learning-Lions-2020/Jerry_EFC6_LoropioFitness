@@ -26,7 +26,7 @@ namespace FitnessApp.UI.Dialog
                 }
 
             }
-            return null;
+            return LoggedUser;
         }
 
         public BaseDialog(ServiceProvider serviceProvider) 

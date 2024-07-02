@@ -1,4 +1,5 @@
 ﻿using FitnessApp.Domain.Contracts;
+using FitnessApp.Domain.Entities;
 using System;
 
 namespace FitnessApp.Domain.Entitities.Base
@@ -20,12 +21,11 @@ namespace FitnessApp.Domain.Entitities.Base
         public string City { get; set; }
         public string Country { get; set; }
 
-        public ICollection<User> Users { get; set; } = new List<User>();
+        // Add UserId property
+        public int UserId { get; set; }
+        public User User { get; set; }
+        public ICollection<UserSportEvent> UserSportEvents { get; set; }
 
-        public void SaveEvent()
-        {
-            _sportEventRepository.Save(this);
-        }
     }
 
 }

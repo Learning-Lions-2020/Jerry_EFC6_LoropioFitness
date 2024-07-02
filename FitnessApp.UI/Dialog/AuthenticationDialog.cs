@@ -1,4 +1,5 @@
-﻿using FitnessApp.Domain.Entitities;
+﻿using FitnessApp.Domain.Contracts;
+using FitnessApp.Domain.Entitities;
 using FitnessApp.UI.Dialog;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -58,7 +59,7 @@ namespace FitnessApp.UI.Dialog
 
             if (!string.IsNullOrEmpty(userNameInput) && !string.IsNullOrEmpty(passwordInput))
             {
-                LoggedUser?.Register(userNameInput, passwordInput);
+                GetUser()?.Register(userNameInput, passwordInput);
                 Console.WriteLine("User registered successfully!");
                 Menu();
             }
@@ -124,7 +125,8 @@ namespace FitnessApp.UI.Dialog
             string input = Console.ReadLine();
 
             var activityDialog = new ActivityDialog(LoggedUser);
-            var eventDialog = new EventDialog(LoggedUser);
+            var eventService = ServiceProvider.GetRequiredService<ISportEventService>();    
+            var eventDialog = new EventDialog(LoggedUser, eventService);
             var userDialog = new UserDialog(LoggedUser);
 
             // Process user input

@@ -1,9 +1,4 @@
-﻿using FitnessApp.Data.DBContext;
-using FitnessApp.Data.Repository;
-using FitnessApp.Domain.Contracts;
-using FitnessApp.Domain.CustomTypes;
-using FitnessApp.Domain.Entities.Base;
-using FitnessApp.Domain.Entitities;
+﻿using FitnessApp.Domain.Entitities;
 using FitnessApp.Domain.Security;
 
 namespace FitnessApp.UI.Dialog;
