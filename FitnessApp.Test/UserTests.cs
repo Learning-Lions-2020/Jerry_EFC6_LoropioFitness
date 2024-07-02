@@ -27,7 +27,7 @@ namespace FitnessApp.Test
 
             // Assert
             Assert.True(logonValid);
-        }
+        }    
 
         [Fact]
         public void Test_GetCredentialsAreValid_Returns_False_For_Wrong_Password(User? logonValid)
