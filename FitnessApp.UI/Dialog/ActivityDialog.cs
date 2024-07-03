@@ -2,11 +2,15 @@
 using FitnessApp.Domain.CustomTypes;
 using FitnessApp.Domain.Entities.Base;
 using FitnessApp.Domain.Entitities;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace FitnessApp.UI.Dialog;
 
-internal class ActivityDialog : BaseDialog
+public class ActivityDialog : BaseDialog
 {
+    private readonly FitnessAppContext _dbContext;
+
     public ActivityDialog(User user) : base(user) { }
 
 
@@ -620,6 +624,25 @@ internal class ActivityDialog : BaseDialog
 
     void DeleteActivityById()
     {
+        var activityList = _dbContext.SportActivities.ToList();
+
+        if (!activityList.Any())
+        {
+            Console.WriteLine("No activities found to delete.");
+            return;
+        }
+
+        Console.WriteLine("Existing Activities:");
+        foreach (var activity in activityList)
+        {
+            Console.WriteLine($"Activity ID: {activity.Id}");
+            Console.WriteLine($"Activity Type: {activity.ActivityType}");
+            Console.WriteLine($"Distance: {activity.Distance}");
+            Console.WriteLine($"Time Taken: {activity.TimeTaken}");
+            Console.WriteLine($"Activity Date: {activity.ActivityDate}");
+            Console.WriteLine("-------------------------------------------------");
+        }
+
         Console.WriteLine("Enter the ID of the activity to delete:");
         string activityIdInput = Console.ReadLine();
 
@@ -629,9 +652,19 @@ internal class ActivityDialog : BaseDialog
 
             if (activityToDelete != null)
             {
-                LoggedUser?.SportActivities.Remove(activityToDelete);
+                /*LoggedUser?.SportActivities.Remove(activityToDelete);
                 LoggedUser?.SaveOrUpdate();
-                Console.WriteLine("Activity deleted successfully.");
+                Console.WriteLine("Activity deleted successfully.");*/
+
+                // Remove associated sensor data
+                var sensorDataList = _dbContext.SensorDatas
+                    .Where(sd => sd.SportActivityId == activityId)
+                    .ToList();
+
+                _dbContext.SensorDatas.RemoveRange(sensorDataList);
+                _dbContext.SportActivities.Remove(activityToDelete);
+                _dbContext.SaveChanges();
+                Console.WriteLine($"Activity with ID {activityId} and its related sensor data deleted successfully.");
             }
             else
             {
