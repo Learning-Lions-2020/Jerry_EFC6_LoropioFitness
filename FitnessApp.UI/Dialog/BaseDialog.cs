@@ -18,7 +18,8 @@ namespace FitnessApp.UI.Dialog
         {
             if (LoggedUser == null)
             {
-                var user = ServiceProvider.GetService<User>();
+                User? user1 = ServiceProvider.GetService<User>();
+                User? user = user1;
 
                 if (user != null)
                 {

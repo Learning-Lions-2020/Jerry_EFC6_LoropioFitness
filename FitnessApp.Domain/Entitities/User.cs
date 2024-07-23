@@ -19,7 +19,6 @@ public class User
     public ICollection<SportEvent> RegisteredEvents { get; set; } = new List<SportEvent>();
     public ICollection<SportEvent> SportEvent { get; set; } = new List<SportEvent>();
     public ICollection<UserSportEvent> UserSportEvents { get; set; }
-    public string Username { get; set; }
 
     private static IUserRepository _userRepository;
 
@@ -58,7 +57,7 @@ public class User
         return _userRepository.GetUserById(userId);
     }
 
-    public User? GetCredentialsAreValid(string userName, string password)
+    public User? GetUser(string userName, string password)
     {
         // Task: Use the Security Provider Class to verify if the credentials of the user are valid
         // if the credentials are valid set the Id and the UserName of this user

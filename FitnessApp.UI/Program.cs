@@ -15,4 +15,3 @@ var serviceProvider = new ServiceCollection()
     .BuildServiceProvider();
 
     new AuthenticationDialog(serviceProvider).Start();
-

@@ -9,7 +9,6 @@ namespace FitnessApp.Domain.Entities
         public double AverageHeartRate { get; set; }
         public double CalorieConsumption { get; set; }
         public double AverageBodyTemperature { get; set; }
-
         public Guid SportActivityId { get; set; }
         public SportActivity SportActivity { get; set; }
     }

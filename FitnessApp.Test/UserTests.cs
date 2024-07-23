@@ -19,18 +19,18 @@ namespace FitnessApp.Test
 
             var saltForHash = Convert.ToHexString(salt);
             var userRepositoryMock = new Mock<IUserRepository>();
-            userRepositoryMock.Setup(m => m.GetUser(userName)).Returns(new User() { Username = userName, PasswordHash = hash, PasswordSalt = saltForHash });
+            userRepositoryMock.Setup(m => m.GetUser(userName)).Returns(new User() { UserName = userName, PasswordHash = hash, PasswordSalt = saltForHash });
 
             // Act
             var user = new User(userRepositoryMock.Object);
-            var logonValid = user.GetCredentialsAreValid(userName, password);
+            var logonValid = user.GetUser(userName, password);
 
             // Assert
-            Assert.True(logonValid);
-        }    
+            Assert.True(logonValid != null);
+        }
 
         [Fact]
-        public void Test_GetCredentialsAreValid_Returns_False_For_Wrong_Password(User? logonValid)
+        public void Test_GetCredentialsAreValid_Returns_False_For_Wrong_Password()
         {
             // Arrange
             var userName = "TestUser";
@@ -40,14 +40,14 @@ namespace FitnessApp.Test
             var saltForHash = Convert.ToHexString(salt);
 
             var userRepositoryMock = new Mock<IUserRepository>();
-            userRepositoryMock.Setup(m => m.GetUser(userName)).Returns(new User() { Username = userName, PasswordHash = hash, PasswordSalt = saltForHash });
+            userRepositoryMock.Setup(m => m.GetUser(userName)).Returns(new User() { UserName = userName, PasswordHash = hash, PasswordSalt = saltForHash });
 
             // Act
             var user = new User(userRepositoryMock.Object);
-            var logonValid = user.GetCredentialsAreValid(userName, wrongPassword);
+            var logonValid = user.GetUser(userName, wrongPassword);
 
             // Assert
-            Assert.False(logonValid);
+            Assert.False(logonValid != null);
         }
     }
 }

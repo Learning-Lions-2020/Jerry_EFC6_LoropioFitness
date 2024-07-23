@@ -7,7 +7,7 @@ namespace FitnessApp.Domain.Entities
     {
         public int UserId { get; set; }
         public User User { get; set; }
-        public Guid SportEventId { get; set; }
+        public int SportEventId { get; set; }
         public SportEvent SportEvent { get; set; }
     }
 }

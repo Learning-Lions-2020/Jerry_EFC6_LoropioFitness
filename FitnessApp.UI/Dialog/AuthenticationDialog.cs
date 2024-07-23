@@ -35,7 +35,7 @@ namespace FitnessApp.UI.Dialog
                 case "2":
                     Login();
                     break;
-                case "4":
+                case "3":
                     Environment.Exit(0);
                     break;
                 default:
@@ -83,9 +83,9 @@ namespace FitnessApp.UI.Dialog
 
             if (!string.IsNullOrEmpty(userNameInput) && !string.IsNullOrEmpty(passwordInput))
             {
-                var user = GetUser();
+                User user = GetUser();
 
-                LoggedUser = user.GetCredentialsAreValid(userNameInput, passwordInput);
+                LoggedUser = user.GetUser(userNameInput, passwordInput);
 
                 if (LoggedUser != null)
                 {
@@ -100,7 +100,7 @@ namespace FitnessApp.UI.Dialog
             }
             else
             {
-                Console.WriteLine("You did not provide your User Name username or Password !");
+                Console.WriteLine("You did not provide your username or Password !");
             }
 
         }

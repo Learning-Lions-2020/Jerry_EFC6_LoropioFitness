@@ -19,9 +19,9 @@ namespace FitnessApp.Data.DBContext
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder
-                .UseSqlServer("Server=localhost\\SQLEXPRESS;Database=FitnessDb;Trusted_Connection=True;TrustServerCertificate=True")
-                .LogTo(Console.WriteLine, LogLevel.Information)
-                .EnableSensitiveDataLogging();
+                .UseSqlServer("Server=localhost\\SQLEXPRESS;Database=FitnessDbNew;Trusted_Connection=True;TrustServerCertificate=True");
+                /*.LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableSensitiveDataLogging();*/
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
