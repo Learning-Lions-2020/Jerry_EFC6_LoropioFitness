@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 var serviceProvider = new ServiceCollection()
     .AddScoped<IUserRepository, UserRepository>()
     .AddScoped<ISportEventRepository, SportEventRepository>()
+    .AddScoped<ISportEventRepository, RawSQLSportEventRepository>()
     .AddScoped<User>()
     .AddDbContext<FitnessAppContext>()
     .BuildServiceProvider();
