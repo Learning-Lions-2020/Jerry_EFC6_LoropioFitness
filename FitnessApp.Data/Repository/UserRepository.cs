@@ -10,7 +10,12 @@ namespace FitnessApp.Data.Repository;
 
 public class UserRepository : IUserRepository
 {
-    FitnessAppContext _context = new FitnessAppContext();
+    private FitnessAppContext _context;
+
+    public UserRepository(FitnessAppContext context) 
+    { 
+       _context = context; 
+    }
 
     public User GetUser(string userName)
     {

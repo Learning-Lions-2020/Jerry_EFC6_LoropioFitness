@@ -1,5 +1,4 @@
-﻿using FitnessApp.Domain.Entitities.Base;
-using FitnessApp.Domain.Entitities;
+﻿using FitnessApp.Domain.Entitities;
 
 namespace FitnessApp.Domain.Entities
 {
@@ -12,3 +11,4 @@ namespace FitnessApp.Domain.Entities
     }
 }
 
+ 

@@ -83,12 +83,12 @@ namespace FitnessApp.UI.Dialog
 
             if (!string.IsNullOrEmpty(userNameInput) && !string.IsNullOrEmpty(passwordInput))
             {
-                User user = GetUser();
+                var user = GetUser();
 
-                LoggedUser = user.GetUser(userNameInput, passwordInput);
+                LoggedUser = user.GetUserVerifyCredentilas(userNameInput, passwordInput);
 
                 if (LoggedUser != null)
-                {
+                { 
                     Console.WriteLine($"Welcome {LoggedUser.UserName}, you have logged on successfully !");
                     Menu();
                 }
@@ -125,8 +125,8 @@ namespace FitnessApp.UI.Dialog
             string input = Console.ReadLine();
 
             var activityDialog = new ActivityDialog(LoggedUser);
-            var eventService = ServiceProvider.GetRequiredService<ISportEventService>();    
-            var eventDialog = new EventDialog(LoggedUser, eventService);
+            var eventRepository = ServiceProvider.GetRequiredService<ISportEventRepository>();    
+            var eventDialog = new EventDialog(LoggedUser, eventRepository);
             var userDialog = new UserDialog(LoggedUser);
 
             // Process user input

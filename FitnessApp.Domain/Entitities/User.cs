@@ -2,7 +2,6 @@
 using FitnessApp.Domain.Contracts;
 using FitnessApp.Domain.Entities;
 using FitnessApp.Domain.Entities.Base;
-using FitnessApp.Domain.Entitities.Base;
 using FitnessApp.Domain.Security;
 
 namespace FitnessApp.Domain.Entitities;
@@ -16,13 +15,11 @@ public class User
     public string PasswordSalt { get; set; } = string.Empty;
     
     public ICollection<SportActivity> SportActivities { get; set; } = new List<SportActivity>();
-    public ICollection<SportEvent> RegisteredEvents { get; set; } = new List<SportEvent>();
     public ICollection<SportEvent> SportEvent { get; set; } = new List<SportEvent>();
-    public ICollection<UserSportEvent> UserSportEvents { get; set; }
 
     private static IUserRepository _userRepository;
 
-
+     
     public User(){ }
 
     public User(IUserRepository userRepository)
@@ -57,7 +54,7 @@ public class User
         return _userRepository.GetUserById(userId);
     }
 
-    public User? GetUser(string userName, string password)
+    public User? GetUserVerifyCredentilas(string userName, string password)
     {
         // Task: Use the Security Provider Class to verify if the credentials of the user are valid
         // if the credentials are valid set the Id and the UserName of this user

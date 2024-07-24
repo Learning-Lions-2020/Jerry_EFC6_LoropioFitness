@@ -4,7 +4,6 @@ using FitnessApp.Data.DBContext;
 using FitnessApp.Domain.Contracts;
 using FitnessApp.Domain.Entities;
 using FitnessApp.Domain.Entities.Base;
-using FitnessApp.Domain.Entitities.Base;
 using FitnessApp.Domain.Entitities;
 
 namespace FitnessApp.Data.Repository
@@ -30,9 +29,8 @@ namespace FitnessApp.Data.Repository
 
         public List<SportEvent> GetMySportEvents(User user)
         {
-            return _dbContext.UserSportEvents
-                             .Where(ue => ue.UserId == user.Id)
-                             .Select(ue => ue.SportEvent)
+            return _dbContext.SportEvents
+                             .Where(ue => ue.Users.Contains(user))
                              .ToList();
         }
 

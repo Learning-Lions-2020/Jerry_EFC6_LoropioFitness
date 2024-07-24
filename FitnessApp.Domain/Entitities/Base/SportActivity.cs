@@ -13,11 +13,11 @@ namespace FitnessApp.Domain.Entities.Base
         public DateTime ActivityDate { get; set; }
         public Feeling Feeling { get; set; }
         public virtual string DistanceUnit => "";
-        public User User { get; set; }
+        public User? User { get; set; }
         public ActivityType ActivityType { get; set; }
         public int UserId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public ICollection<SensorData> SensorDatas { get; set; }
+        public SensorData? SensorData { get; set; }
     }
 }

@@ -79,27 +79,13 @@ namespace FitnessApp.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SportActivityId");
+                    b.HasIndex("SportActivityId")
+                        .IsUnique();
 
                     b.ToTable("SensorDatas");
                 });
 
-            modelBuilder.Entity("FitnessApp.Domain.Entities.UserSportEvent", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SportEventId")
-                        .HasColumnType("int");
-
-                    b.HasKey("UserId", "SportEventId");
-
-                    b.HasIndex("SportEventId");
-
-                    b.ToTable("UserSportEvents");
-                });
-
-            modelBuilder.Entity("FitnessApp.Domain.Entitities.Base.SportEvent", b =>
+            modelBuilder.Entity("FitnessApp.Domain.Entitities.SportEvent", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -126,17 +112,7 @@ namespace FitnessApp.Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("UserId1")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("SportEvents");
                 });
@@ -166,6 +142,21 @@ namespace FitnessApp.Data.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("SportEventUser", b =>
+                {
+                    b.Property<int>("SportEventId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("SportEventId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("SportEventUser");
+                });
+
             modelBuilder.Entity("FitnessApp.Domain.Entities.Base.SportActivity", b =>
                 {
                     b.HasOne("FitnessApp.Domain.Entitities.User", "User")
@@ -180,67 +171,36 @@ namespace FitnessApp.Data.Migrations
             modelBuilder.Entity("FitnessApp.Domain.Entities.SensorData", b =>
                 {
                     b.HasOne("FitnessApp.Domain.Entities.Base.SportActivity", "SportActivity")
-                        .WithMany("SensorDatas")
-                        .HasForeignKey("SportActivityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .WithOne("SensorData")
+                        .HasForeignKey("FitnessApp.Domain.Entities.SensorData", "SportActivityId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("SportActivity");
                 });
 
-            modelBuilder.Entity("FitnessApp.Domain.Entities.UserSportEvent", b =>
+            modelBuilder.Entity("SportEventUser", b =>
                 {
-                    b.HasOne("FitnessApp.Domain.Entitities.Base.SportEvent", "SportEvent")
-                        .WithMany("UserSportEvents")
+                    b.HasOne("FitnessApp.Domain.Entitities.SportEvent", null)
+                        .WithMany()
                         .HasForeignKey("SportEventId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("FitnessApp.Domain.Entitities.User", "User")
-                        .WithMany("UserSportEvents")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("SportEvent");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("FitnessApp.Domain.Entitities.Base.SportEvent", b =>
-                {
-                    b.HasOne("FitnessApp.Domain.Entitities.User", "User")
-                        .WithMany("RegisteredEvents")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("FitnessApp.Domain.Entitities.User", null)
-                        .WithMany("SportEvent")
-                        .HasForeignKey("UserId1");
-
-                    b.Navigation("User");
+                        .WithMany()
+                        .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("FitnessApp.Domain.Entities.Base.SportActivity", b =>
                 {
-                    b.Navigation("SensorDatas");
-                });
-
-            modelBuilder.Entity("FitnessApp.Domain.Entitities.Base.SportEvent", b =>
-                {
-                    b.Navigation("UserSportEvents");
+                    b.Navigation("SensorData");
                 });
 
             modelBuilder.Entity("FitnessApp.Domain.Entitities.User", b =>
                 {
-                    b.Navigation("RegisteredEvents");
-
                     b.Navigation("SportActivities");
-
-                    b.Navigation("SportEvent");
-
-                    b.Navigation("UserSportEvents");
                 });
 #pragma warning restore 612, 618
         }

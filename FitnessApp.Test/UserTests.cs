@@ -1,6 +1,5 @@
 using FitnessApp.Domain.Contracts;
 using FitnessApp.Domain.Entitities;
-using FitnessApp.Domain.Entitities.Base;
 using FitnessApp.Domain.Security;
 using Moq;
 using Xunit;
@@ -23,13 +22,13 @@ namespace FitnessApp.Test
 
             // Act
             var user = new User(userRepositoryMock.Object);
-            var logonValid = user.GetUser(userName, password);
+            var logonValid = user.GetUserVerifyCredentilas(userName, password);
 
             // Assert
             Assert.True(logonValid != null);
         }
 
-        [Fact]
+        [Fact] 
         public void Test_GetCredentialsAreValid_Returns_False_For_Wrong_Password()
         {
             // Arrange
@@ -44,7 +43,7 @@ namespace FitnessApp.Test
 
             // Act
             var user = new User(userRepositoryMock.Object);
-            var logonValid = user.GetUser(userName, wrongPassword);
+            var logonValid = user.GetUserVerifyCredentilas(userName, wrongPassword);
 
             // Assert
             Assert.False(logonValid != null);

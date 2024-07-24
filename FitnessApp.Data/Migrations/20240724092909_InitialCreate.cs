@@ -53,7 +53,9 @@ namespace FitnessApp.Data.Migrations
                     ActivityDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Feeling = table.Column<int>(type: "int", nullable: false),
                     ActivityType = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndTime = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -90,6 +92,33 @@ namespace FitnessApp.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "SensorDatas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    AverageHeartRate = table.Column<double>(type: "float", nullable: false),
+                    CalorieConsumption = table.Column<double>(type: "float", nullable: false),
+                    AverageBodyTemperature = table.Column<double>(type: "float", nullable: false),
+                    SportActivityId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SensorDatas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SensorDatas_SportActivities_SportActivityId",
+                        column: x => x.SportActivityId,
+                        principalTable: "SportActivities",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SensorDatas_SportActivityId",
+                table: "SensorDatas",
+                column: "SportActivityId",
+                unique: true);
+
             migrationBuilder.CreateIndex(
                 name: "IX_SportActivities_UserId",
                 table: "SportActivities",
@@ -105,10 +134,13 @@ namespace FitnessApp.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "SportActivities");
+                name: "SensorDatas");
 
             migrationBuilder.DropTable(
                 name: "SportEventUser");
+
+            migrationBuilder.DropTable(
+                name: "SportActivities");
 
             migrationBuilder.DropTable(
                 name: "SportEvents");

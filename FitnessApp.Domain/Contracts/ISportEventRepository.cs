@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using FitnessApp.Domain.Entities;
 using FitnessApp.Domain.Entitities;
-using FitnessApp.Domain.Entitities.Base;
 
 namespace FitnessApp.Domain.Contracts
 {
@@ -15,3 +14,4 @@ namespace FitnessApp.Domain.Contracts
     }
 }
 
+ 

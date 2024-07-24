@@ -1,16 +1,15 @@
 ﻿using FitnessApp.Domain.Contracts;
 using FitnessApp.Domain.Entitities;
-using FitnessApp.Domain.Entitities.Base;
 
 namespace FitnessApp.UI.Dialog
 {
     public class EventDialog : BaseDialog
     {
-        private ISportEventService _sportEventService;
+        private ISportEventRepository _eventRepository; 
 
-       public EventDialog(User user, ISportEventService sportEventService) : base(user) 
-        { 
-            _sportEventService = sportEventService; 
+       public EventDialog(User user, ISportEventRepository eventRepository) : base(user) 
+        {
+            _eventRepository = eventRepository; 
         }
         public void ManageSportEvents()
         {
@@ -69,7 +68,7 @@ namespace FitnessApp.UI.Dialog
 
             try
             {
-                var sportEvent = new SportEvent();
+                var sportEvent = new SportEvent(_eventRepository);
 
                 Console.WriteLine("Enter the name of the event:");
                 string name = Console.ReadLine();
@@ -98,7 +97,7 @@ namespace FitnessApp.UI.Dialog
                 sportEvent.City = city;
                 sportEvent.Country = country;
 
-                _sportEventService.Save(sportEvent);
+                _eventRepository.Save(sportEvent);
                
 
                 Console.WriteLine("Sports event added successfully!");
@@ -131,7 +130,7 @@ namespace FitnessApp.UI.Dialog
                 return;
             }
 
-            var sportEvent = _sportEventService.GetSportEventById(eventId);
+            var sportEvent = _eventRepository.GetSportEventById(eventId);
             if (sportEvent != null)
             {
                 bool isRegistered = false;
@@ -171,7 +170,7 @@ namespace FitnessApp.UI.Dialog
             {
                 Console.WriteLine("List of Sports Events:");
 
-                var events = _sportEventService.GetSportsEvents();
+                var events = _eventRepository.GetAllSportEvents();
 
                 if (events.Any())
                 {
@@ -214,7 +213,7 @@ namespace FitnessApp.UI.Dialog
 
                 if (LoggedUser != null)
                 {
-                    var sportEvents = _sportEventService.GetMySportsEvents(LoggedUser);
+                    var sportEvents = _eventRepository.GetMySportEvents(LoggedUser);
 
                     if(sportEvents != null)
                     {
@@ -275,7 +274,7 @@ namespace FitnessApp.UI.Dialog
                     return;
                 }
 
-                var sportEvent = _sportEventService.GetSportEventById(eventId);
+                var sportEvent = _eventRepository.GetSportEventById(eventId);
 
                 if (sportEvent == null)
                 {
