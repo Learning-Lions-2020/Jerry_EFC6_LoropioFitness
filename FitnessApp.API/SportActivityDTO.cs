@@ -1,0 +1,23 @@
+﻿using FitnessApp.Domain.CustomTypes;
+using FitnessApp.Domain.Entities;
+using FitnessApp.Domain.Entitities;
+using System;
+
+namespace FitnessApp.API
+{
+    public class SportActivityDTO
+    {
+        public Guid Id { get; set; }
+        public double Distance { get; set; }
+        public TimeSpan TimeTaken { get; set; }
+        public DateTime ActivityDate { get; set; }
+        public Feeling Feeling { get; set; }
+        public ActivityType ActivityType { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public SensorData? SensorData { get; set; }
+        public int UserId { get; set; }
+    }
+}
+
+

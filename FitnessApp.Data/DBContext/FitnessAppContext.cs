@@ -2,7 +2,6 @@
 using FitnessApp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using FitnessApp.Domain.Entitities;
-using Microsoft.Extensions.Logging;
 
 namespace FitnessApp.Data.DBContext
 {
@@ -13,13 +12,18 @@ namespace FitnessApp.Data.DBContext
         public DbSet<SportEvent> SportEvents { get; set; }
         public DbSet<SensorData> SensorDatas { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public FitnessAppContext(DbContextOptions<FitnessAppContext> options) : base(options) 
+        { 
+        
+        }
+
+        /*protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder
                 .UseSqlServer("Server=localhost\\SQLEXPRESS;Database=FitnessDbNew;Trusted_Connection=True;TrustServerCertificate=True");
-                /*.LogTo(Console.WriteLine, LogLevel.Information)
-                .EnableSensitiveDataLogging();*/
-        } 
+                *//*.LogTo(Console.WriteLine, LogLevel.Information)
+                .EnableSensitiveDataLogging();*//*
+        } */
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
